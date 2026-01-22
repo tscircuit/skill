@@ -28,12 +28,16 @@ Typical output includes:
 
 4) Add existing registry packages to your project
 - `tsci add <author/pkg>`
+  - Use when a reusable tscircuit package already exists in the registry
   - Example: `tsci add seveibar/PICO_W`
   - Imports look like: `import { PICO_W } from "@tsci/seveibar.PICO_W"`
+  - The `@tsci/` scope with dot notation (`author.pkg`) is the registry convention
 
 5) Import components (e.g., from JLCPCB)
 - `tsci import <query>`
-  - Intended for importing a concrete component into the tscircuit ecosystem
+  - Use when you need to bring a specific part (by part number or query) into tscircuit
+  - Creates a local component wrapper for a supplier part
+  - Example: `tsci import "C14663"` (JLCPCB part number)
 
 6) Build (generate circuit.json)
 - `tsci build` (auto-detects entrypoint)

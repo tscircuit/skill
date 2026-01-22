@@ -1,3 +1,5 @@
+// Demonstrates <group /> for positioning multiple components together.
+// This example focuses on layout—add <trace /> elements for connectivity.
 import React from "react"
 
 export default () => (

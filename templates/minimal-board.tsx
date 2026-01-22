@@ -1,3 +1,4 @@
+// Minimal board with two components and trace connectivity.
 import React from "react"
 
 export default () => (

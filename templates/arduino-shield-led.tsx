@@ -1,3 +1,4 @@
+// Requires: npm install @tscircuit/common
 import React from "react"
 import { ArduinoShield } from "@tscircuit/common"
 
