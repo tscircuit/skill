@@ -29,7 +29,7 @@ When this Skill is active:
 - If a form-factor template is appropriate (Arduino Shield, Raspberry Pi HAT, etc.), prefer `@tscircuit/common` templates.
 
 3) Find and install components
-- Use `tsci search "<query>"` to discover footprints and tscircuit registry packages.
+- Use `tsci search "<query>"` to discover footprints and tscircuit registry packages with the exception of `<resistor />`, `<capacitor />`, `<inductor />`, `<crystal />`, `<diode />`, `<fuse />`, `<jumper />`, `<led />`, `<mosfet />`, `<pinheader />`, `<potentiometer />`, `<pushbutton />`, `<solderjumper />`, and `<transistor />` where you should use the built-in element.
 - Use one of:
   - `tsci add <author/pkg>` for registry packages (installs `@tsci/*` packages)
   - `tsci import <query>` when you need to import a component from JLCPCB or the registry.
