@@ -115,7 +115,13 @@ export const MyChip = (props: ChipProps<typeof pinLabels>) => (
 )
 ```
 
-## 6) Connectivity with `<trace />`
+## 6) Use `<connector />` for USB connectors
+
+Use `<connector />` for all USB connector footprints (USB-C, Micro-USB, Mini-USB, and USB-A/B variants). This gives the design checker better semantic information for connector-related DRC.
+
+If a `<chip />` is currently modeling a USB receptacle, plug, or jack, consider refactoring it to `<connector />` so additional USB-specific DRC checks can apply.
+
+## 7) Connectivity with `<trace />`
 
 Connect pins with port selectors:
 
@@ -137,7 +143,7 @@ Useful trace props (optional)
 - `width` / `thickness`
 - `minLength` / `maxLength`
 
-## 7) Grouping for PCB layout
+## 8) Grouping for PCB layout
 
 Use `<group />` like a container to move/layout parts together.
 
@@ -151,7 +157,7 @@ Use `<group />` like a container to move/layout parts together.
 </board>
 ```
 
-## 8) Schematic pin arrangement
+## 9) Schematic pin arrangement
 
 Control how pins appear on the schematic symbol with `schPinArrangement`:
 
@@ -186,7 +192,7 @@ Available sides: `leftSide`, `rightSide`, `topSide`, `bottomSide`
 - Left/right sides use `direction: "top-to-bottom"` or `"bottom-to-top"`
 - Top/bottom sides use `direction: "left-to-right"` or `"right-to-left"`
 
-## 9) Manufacturing helpers
+## 10) Manufacturing helpers
 
 For turnkey assembly you will often want:
 - `supplierPartNumbers` (pin a specific supplier SKU/part number)
