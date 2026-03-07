@@ -70,7 +70,9 @@
 - Run `tsci check netlist` before `tsci check placement` and `tsci build` to catch connectivity issues early.
 - Run `tsci build` to validate changes—this is the preferred iteration method for AI-driven development.
 - DRC (Design Rule Check) errors can often be ignored during development; focus on connectivity and component placement first.
-- Fix connectivity errors first, then placement, then routing.
+- Fix connectivity errors first, then placement.
+- Run `tsci snapshot` to inspect placement before checking routing.
+- Then address routing issues.
 - Use `tsci dev` only when interactive visual preview is needed (not typical for AI iteration).
 
 ## 8) Stabilize and regression-test

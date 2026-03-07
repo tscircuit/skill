@@ -94,6 +94,9 @@ Tip: If someone has already imported the part, prefer the registry version—it 
 Before placement checks or builds, run a netlist check first:
 - `tsci check netlist [file]`
 
+Then generate a placement snapshot before routing checks:
+- `tsci snapshot`
+
 Then check placement of the entire board or a specific component:
 - `tsci check placement [file] [refdes]`
 

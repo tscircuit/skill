@@ -43,6 +43,7 @@ When this Skill is active:
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check placement` and `tsci build` to catch connectivity issues early.
+- Run `tsci snapshot` to inspect placement before checking routing.
 - Run `tsci build` to compile and validate the circuit.
 - DRC (Design Rule Check) errors can often be ignored during development—focus on getting the circuit correct first.
 - If routing struggles, reduce density, use `<group />` for sub-layouts, or change autorouter settings.
