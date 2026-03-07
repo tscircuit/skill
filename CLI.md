@@ -30,6 +30,7 @@ Search flags:
 - `--jlcpcb` (or `--lcsc`) – Search JLCPCB/LCSC components by name or part number
 - `--kicad` – Search KiCad footprint library
 - `--tscircuit` – Search tscircuit registry packages
+- `--json` – Return machine-readable JSON output instead of plain text
 
 Examples:
 ```bash
@@ -56,6 +57,23 @@ tsci search --tscircuit "LED"
 
 # Search without flags (searches all sources)
 tsci search "ESP32"
+
+# Search with JSON output (useful for scripts)
+tsci search --jlcpcb "ATmega328" --json
+# Example output:
+# {
+#   "results": [
+#     {
+#       "source": "jlcpcb",
+#       "name": "ATMEGA328P-AU",
+#       "part_number": "C14877",
+#       "description": "Microcontroller Unit, 8-bit AVR",
+#       "manufacturer": "Microchip Tech",
+#       "stock": 20226,
+#       "price": "0.735"
+#     }
+#   ]
+# }
 ```
 
 4) Add existing registry packages to your project
