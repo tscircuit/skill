@@ -9,7 +9,7 @@ if ! command -v tsci >/dev/null 2>&1; then
   exit 127
 fi
 
-FILE="${1:-index.tsx}"
+FILE="${1:-index.circuit.tsx}"
 BASE="${FILE%.*}"
 
 OUT_SCHEM="${BASE}-schematic.svg"

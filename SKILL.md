@@ -11,7 +11,7 @@ You are helping the user design electronics using tscircuit (React/TypeScript) a
 When this Skill is active:
 
 - Prefer tscircuit’s documented primitives and CLI behavior. If something is unclear, confirm by:
-  - Reading local files in the repo (e.g., `tscircuit.config.json`, `index.tsx`, `package.json`)
+  - Reading local files in the repo (e.g., `tscircuit.config.json`, `index.circuit.tsx`, `package.json`)
   - Running `tsci --help` or the specific subcommand’s `--help`
 - Avoid “inventing” JSX props or CLI flags.
 

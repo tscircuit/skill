@@ -13,7 +13,7 @@ Core commands
 - `tsci init -y` (accept defaults)
 
 Typical output includes:
-- `index.tsx` (main circuit entrypoint)
+- `index.circuit.tsx` (main circuit entrypoint)
 - `package.json`, `tsconfig.json`
 - `tscircuit.config.json`
 
@@ -122,7 +122,7 @@ Then check placement of the entire board or a specific component:
 - `tsci build path/to/file.circuit.tsx`
 
 Notes
-- If no path is provided, `tsci build` searches for `index.tsx` or `mainEntrypoint` in `tscircuit.config.json`.
+- If no path is provided, `tsci build` searches for `index.circuit.tsx` or `mainEntrypoint` in `tscircuit.config.json`.
 - `*.circuit.tsx` files are built automatically.
 - Outputs go to `dist/`.
 
