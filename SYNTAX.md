@@ -10,11 +10,12 @@ Example:
 import React from "react"
 
 export default () => (
-  <board width="10mm" height="10mm">
+  <board width="10mm" height="10mm" layers={2}>
     <resistor name="R1" resistance="1k" footprint="0402" />
   </board>
 )
 ```
+
 
 ## 2) Layout properties
 
@@ -22,6 +23,7 @@ You can place nearly any element with:
 - `pcbX`, `pcbY` (PCB position)
 - `pcbRotation`
 - `layer` (e.g., `"bottom"`)
+
 
 For schematics:
 - `schX`, `schY`
