@@ -72,6 +72,7 @@
 - DRC (Design Rule Check) errors can often be ignored during development; focus on connectivity and component placement first.
 - Fix connectivity errors first, then placement.
 - Run `tsci snapshot` to inspect placement before checking routing.
+- Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
 - Then address routing issues.
 - Use `tsci dev` only when interactive visual preview is needed (not typical for AI iteration).
 

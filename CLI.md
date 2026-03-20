@@ -118,6 +118,9 @@ Then generate a placement snapshot before routing checks:
 Then check placement of the entire board or a specific component:
 - `tsci check placement [file] [refdes]`
 
+After placement, identify potential congestion before routing:
+- `tsci check routing-difficulty [file]`
+
 - `tsci build` (auto-detects entrypoint)
 - `tsci build path/to/file.circuit.tsx`
 
