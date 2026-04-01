@@ -43,6 +43,7 @@ When this Skill is active:
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check placement` and `tsci build` to catch connectivity issues early.
+- Do not finalize unless `tsci check placement` passes with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Run `tsci snapshot` to inspect placement before checking routing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
 - Run `tsci build` to compile and validate the circuit.
