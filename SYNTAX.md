@@ -227,11 +227,7 @@ Use `<copperpour />` to create ground planes or power planes. It automatically f
 
 ### Key Properties
 
-| Property | Description |
-|----------|-------------|
-| `connectsTo` | The net the pour should connect to (e.g., `"net.GND"` or `net.GND`) |
-| `layer` | PCB layer for the pour ( `"top"`, `"bottom"`, etc.) |
-| `clearance` | Default minimum distance from other features (default: `0.2mm`) |
-| `padMargin` | Minimum distance from component pads |
-| `traceMargin` | Minimum distance from traces on other nets |
-| `boardEdgeMargin`| Minimum distance from the board edge |
+- `connectsTo`: The net the pour should connect to (e.g., `"net.GND"` or `net.GND`)
+- `layer`: PCB layer for the pour (`"top"`, `"bottom"`, etc.)
+- `clearance`: Default minimum distance from other features (default: `0.2mm`)
+- `padMargin`, `traceMargin`, `boardEdgeMargin`: Specific clearances for pads, traces, and the board edge.

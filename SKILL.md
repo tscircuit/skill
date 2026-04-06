@@ -1,6 +1,6 @@
 ---
 name: tscircuit
-description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs. Use when working with tsci CLI (init/dev/search/add/import/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, adding copper pours, or preparing fabrication outputs (Gerbers/BOM/PnP).
+description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs. Use when working with tsci CLI (init/dev/search/add/import/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, or preparing fabrication outputs (Gerbers/BOM/PnP).
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 
@@ -66,6 +66,7 @@ When this Skill is active:
 
 - CLI primer: `CLI.md`
 - Syntax primer: `SYNTAX.md`
+- Element reference: `ELEMENTS.md`
 - Workflow patterns: `WORKFLOW.md`
 - Pre-export checklist: `CHECKLIST.md`
 - Ready-to-copy templates: `templates/`
