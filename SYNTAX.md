@@ -235,5 +235,3 @@ Use `<copperpour />` to create ground planes or power planes. It automatically f
 | `padMargin` | Minimum distance from component pads |
 | `traceMargin` | Minimum distance from traces on other nets |
 | `boardEdgeMargin`| Minimum distance from the board edge |
-| `thermalRelief` | Control spokes for pads (e.g., `{ spokeWidth: "0.3mm", spokeCount: 4 }`) |
-| `outline` | Custom polygon points for the pour area |
