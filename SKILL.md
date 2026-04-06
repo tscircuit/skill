@@ -143,7 +143,6 @@ When this Skill is active:
 - [`<silkscreentext />`](./elements/silkscreentext.md)
 - [`<smtpad />`](./elements/smtpad.md)
 - [`<solderjumper />`](./elements/solderjumper.md)
-- [`<stampboard />`](./elements/stampboard.md)
 - [`<subcircuit />`](./elements/subcircuit.md)
 - [`<subpanel />`](./elements/subpanel.md)
 - [`<switch />`](./elements/switch.md)
