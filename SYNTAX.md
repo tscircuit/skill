@@ -212,3 +212,28 @@ Example:
 
 <resistor name="R1" resistance="10k" footprint="0402" doNotPlace />
 ```
+
+## 11) Copper Pour with `<copperpour />`
+
+Use `<copperpour />` to create ground planes or power planes. It automatically fills defined areas while maintaining clearances around traces, pads, and board edges.
+
+```tsx
+<copperpour
+  connectsTo="net.GND"
+  layer="bottom"
+  clearance="0.2mm"
+/>
+```
+
+### Key Properties
+
+| Property | Description |
+|----------|-------------|
+| `connectsTo` | The net the pour should connect to (e.g., `"net.GND"` or `net.GND`) |
+| `layer` | PCB layer for the pour ( `"top"`, `"bottom"`, etc.) |
+| `clearance` | Default minimum distance from other features (default: `0.2mm`) |
+| `padMargin` | Minimum distance from component pads |
+| `traceMargin` | Minimum distance from traces on other nets |
+| `boardEdgeMargin`| Minimum distance from the board edge |
+| `thermalRelief` | Control spokes for pads (e.g., `{ spokeWidth: "0.3mm", spokeCount: 4 }`) |
+| `outline` | Custom polygon points for the pour area |
