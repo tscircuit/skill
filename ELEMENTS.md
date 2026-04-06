@@ -15,25 +15,10 @@ This is a reference table of common tscircuit elements used in React/TSX designs
 | `<crystal />` | Crystal oscillator | `name`, `frequency`, `footprint` |
 | `<trace />` | Electrical connection between points | `from`, `to`, `width` |
 | `<via />` | Through-hole connection between layers| `pcbX`, `pcbY`, `fromLayer`, `toLayer`|
-| `<hole />` | Mechanical mounting hole | `pcbX`, `pcbY`, `holeDiameter` |
 | `<netlabel />` | Named net identifier in schematic | `name`, `schX`, `schY` |
 | `<group />` | Logical grouping for layout/positioning| `pcbX`, `pcbY`, `schX`, `schY` |
 | `<subcircuit />`| Modular sub-layout | `name`, `pcbX`, `pcbY` |
 | `<copperpour />`| Ground or power plane | `connectsTo`, `layer`, `clearance` |
 | `<connector />`| Physical connector (USB, Header, etc.)| `name`, `footprint` |
-
-### PCB/Footprint Primitives
-
-Used inside `<footprint />` for custom footprints or board features.
-
-| Element | Description | Common Props |
-|---------|-------------|--------------|
-| `<smtpad />` | Surface mount pad | `shape`, `width`, `height`, `layer` |
-| `<platedhole />`| Plated through-hole pad | `shape`, `outerDiameter`, `holeDiameter` |
-| `<pcbtext />` | Text on silkscreen/copper | `text`, `pcbX`, `pcbY`, `layer` |
-| `<pcbline />` | Line or path on PCB | `pcbX1`, `pcbY1`, `pcbX2`, `pcbY2`, `layer` |
-| `<pcbkeepout />`| Keepout area | `pcbX`, `pcbY`, `width`, `height` |
-| `<pcbcircle />` | Circle on PCB | `pcbX`, `pcbY`, `radius`, `layer` |
-| `<pcbrect />` | Rectangle on PCB | `pcbX`, `pcbY`, `width`, `height`, `layer` |
 
 For a full list of props and advanced usage, refer to the [official documentation](https://docs.tscircuit.com).
