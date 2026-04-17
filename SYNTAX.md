@@ -145,7 +145,29 @@ Useful trace props (optional)
 - `width` / `thickness`
 - `minLength` / `maxLength`
 
-## 8) Grouping for PCB layout
+## 8) `sel` net selectors
+
+Use `sel` when you want selector expressions with better type safety than raw strings:
+
+```tsx
+import { sel } from "tscircuit"
+
+// sel has common net names built-in (uncommon nets will fail type check)
+<trace from={sel.U1.VCC} to={sel.net.GND} />
+```
+
+Best practice: For typed custom nets specific to your project, define them in `nets.ts` and import where needed:
+
+```tsx
+// nets.ts
+import { sel } from "tscircuit"
+
+export const nets = sel.net<"MOTOR1_POS" | "MOTOR2_POS">()
+
+nets.MOTOR1_POS // "net.MOTOR1_POS"
+```
+
+## 9) Grouping for PCB layout
 
 Use `<group />` like a container to move/layout parts together.
 
@@ -159,7 +181,7 @@ Use `<group />` like a container to move/layout parts together.
 </board>
 ```
 
-## 9) Schematic pin arrangement
+## 10) Schematic pin arrangement
 
 Control how pins appear on the schematic symbol with `schPinArrangement`:
 
@@ -194,7 +216,7 @@ Available sides: `leftSide`, `rightSide`, `topSide`, `bottomSide`
 - Left/right sides use `direction: "top-to-bottom"` or `"bottom-to-top"`
 - Top/bottom sides use `direction: "left-to-right"` or `"right-to-left"`
 
-## 10) Manufacturing helpers
+## 11) Manufacturing helpers
 
 For turnkey assembly you will often want:
 - `supplierPartNumbers` (pin a specific supplier SKU/part number)
