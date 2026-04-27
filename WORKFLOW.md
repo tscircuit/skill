@@ -67,8 +67,9 @@
 
 ## 7) Iterate with `tsci build`
 
-- Run `tsci check netlist` before `tsci check placement` and `tsci build` to catch connectivity issues early.
-- Do not finalize unless `tsci check placement` passes with no actionable placement violations; if violations exist, fix layout and rerun until clean.
+- Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
+- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement.
+- Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Run `tsci build` to validate changes—this is the preferred iteration method for AI-driven development.
 - DRC (Design Rule Check) errors can often be ignored during development; focus on connectivity and component placement first.
 - Fix connectivity errors first, then placement.

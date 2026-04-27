@@ -112,6 +112,9 @@ Tip: If someone has already imported the part, prefer the registry version—it 
 Before placement checks or builds, run a netlist check first:
 - `tsci check netlist [file]`
 
+Then check schematic placement:
+- `tsci check schematic-placement [file]`
+
 Then generate a placement snapshot before routing checks:
 - `tsci snapshot`
 

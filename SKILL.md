@@ -42,8 +42,9 @@ When this Skill is active:
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate
-- Run `tsci check netlist` before `tsci check placement` and `tsci build` to catch connectivity issues early.
-- Do not finalize unless `tsci check placement` passes with no actionable placement violations; if violations exist, fix layout and rerun until clean.
+- Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
+- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement.
+- Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Use `tsci check trace-length` to check for long straight line distances (before routing) or long routes (after routing)
 - Run `tsci build --pcb-png [file]` to inspect placement before checking routing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
@@ -53,7 +54,7 @@ When this Skill is active:
 - Use `tsci dev` only when you need interactive visual feedback (not typical for AI-driven iteration).
 
 6) Validate and export
-- Run `tsci check netlist` before `tsci check placement` and `tsci build` when preparing to share/publish.
+- Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` when preparing to share/publish.
 - Run `tsci build` (and optionally `tsci snapshot`) before sharing/publishing.
 - Use `tsci export` for SVG/netlist/DSN/3D/library outputs.
 - For manufacturing, obtain fabrication outputs (Gerbers/BOM/PnP) from the export UI after `tsci dev`.
