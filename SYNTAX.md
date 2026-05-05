@@ -127,6 +127,13 @@ For a USB-C connector component, prefer the built-in standard:
 
 ```tsx
 <connector name="USBC" standard="usb_c" />
+
+<trace from="USBC.VBUS1" to="net.VBUS" />
+<trace from="USBC.VBUS2" to="net.VBUS" />
+<trace from="USBC.DP1" to="net.USB_DP" />
+<trace from="USBC.DP2" to="net.USB_DP" />
+<trace from="USBC.DM1" to="net.USB_DM" />
+<trace from="USBC.DM2" to="net.USB_DM" />
 ```
 
 No JLC import is required for this default USB-C connector usage.
