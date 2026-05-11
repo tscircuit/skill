@@ -14,24 +14,17 @@ Pick a cluster origin (e.g. `schX={0} schY={0}`) and place all section members n
 
 ```tsx
 export default () => (
-  <board width="20mm" height="20mm">
+  <board width="40mm" height="20mm">
     <schematicsection name="Power" displayName="Power Supply" />
+    <schematicsection name="IO" displayName="Input / Output" />
 
-    {/* All Power section components placed in close proximity */}
-    <resistor
-      name="R1"
-      resistance="10k"
-      footprint="0402"
-      schSectionName="Power"
-      schX={0}
-      schY={0}
-    />
+    {/* Power section — cluster around schX=0 */}
     <capacitor
       name="C1"
       capacitance="100nF"
       footprint="0402"
       schSectionName="Power"
-      schX={2}
+      schX={0}
       schY={0}
     />
     <capacitor
@@ -39,7 +32,32 @@ export default () => (
       capacitance="10uF"
       footprint="0805"
       schSectionName="Power"
+      schX={2}
+      schY={0}
+    />
+    <resistor
+      name="R1"
+      resistance="10k"
+      footprint="0402"
+      schSectionName="Power"
       schX={4}
+      schY={0}
+    />
+
+    {/* IO section — cluster around schX=12, well separated from Power */}
+    <pushbutton
+      name="BTN1"
+      footprint="button_4pin"
+      schSectionName="IO"
+      schX={12}
+      schY={0}
+    />
+    <resistor
+      name="R2"
+      resistance="1k"
+      footprint="0402"
+      schSectionName="IO"
+      schX={14}
       schY={0}
     />
   </board>
