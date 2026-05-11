@@ -137,6 +137,7 @@ When this Skill is active:
 - [`<schematicpath />`](./elements/schematicpath.md)
 - [`<schematicrect />`](./elements/schematicrect.md)
 - [`<schematicrow />`](./elements/schematicrow.md)
+- [`<schematicsection />`](./elements/schematicsection.md)
 - [`<schematictable />`](./elements/schematictable.md)
 - [`<schematictext />`](./elements/schematictext.md)
 - [`<silkscreencircle />`](./elements/silkscreencircle.md)
