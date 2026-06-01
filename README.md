@@ -1,14 +1,10 @@
-# tscircuit Claude Skill
+# tscircuit Agent Skill
 
-This folder is intended to be used as a Claude Code Skill.
+This folder is intended to be used as an agent Skill.
 
 Install as:
 
-- Personal Skill (for you):
-  - `~/.claude/skills/tscircuit/`
-
-- Project Skill (shared in repo):
-  - `.claude/skills/tscircuit/`
+- `npx skills add tscircuit/skill`
 
 The canonical entrypoint is `SKILL.md`.
 
