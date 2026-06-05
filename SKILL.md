@@ -79,6 +79,8 @@ When this Skill is active:
 - [`<analogsimulation />`](./elements/analogsimulation.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
+- [`<breakout />`](./elements/breakout.md)
+- [`<breakoutpoint />`](./elements/breakoutpoint.md)
 - [`<cadassembly />`](./elements/cadassembly.md)
 - [`<cadmodel />`](./elements/cadmodel.md)
 - [`<capacitor />`](./elements/capacitor.md)
