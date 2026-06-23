@@ -79,12 +79,53 @@ export default () => (
 
 ## USB-C standard example
 
+Use the built-in USB-C standard instead of modeling a USB-C receptacle as a
+plain `<chip />`. This exposes semantic connector pins to routing, DRC, and
+pinout tooling.
+
 ```tsx
 export default () => (
   <board width="20mm" height="20mm">
-    <connector name="USBC" standard="usb_c" pcbX={0} pcbY={0} />
+    <connector
+      name="USBC"
+      standard="usb_c"
+      pcbX={0}
+      pcbY="-9mm"
+      pcbRotation={180}
+      connections={{
+        VBUS1: "net.VBUS",
+        VBUS2: "net.VBUS",
+        GND1: "net.GND",
+        GND2: "net.GND",
+        DP1: "net.USB_DP",
+        DP2: "net.USB_DP",
+        DM1: "net.USB_DM",
+        DM2: "net.USB_DM",
+        CC1: "net.USB_CC1",
+        CC2: "net.USB_CC2",
+      }}
+    />
   </board>
 )
+```
+
+Typical USB-C pin aliases exposed by `standard="usb_c"` include `VBUS1`,
+`VBUS2`, `GND1`, `GND2`, `DP1`, `DP2`, `DM1`, `DM2`, `CC1`, and `CC2`.
+Connect both duplicated pins for power and USB 2.0 data nets so the board works
+with either plug orientation.
+
+For a USB-C device or sink, add the required CC pull-down resistors in your
+circuit:
+
+```tsx
+<resistor name="R_CC1" resistance="5.1k" footprint="0402" connections={{
+  pin1: "USBC.CC1",
+  pin2: "net.GND",
+}} />
+<resistor name="R_CC2" resistance="5.1k" footprint="0402" connections={{
+  pin1: "USBC.CC2",
+  pin2: "net.GND",
+}} />
 ```
 
 ## Accessible orientation warning
