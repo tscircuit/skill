@@ -143,8 +143,10 @@ No JLC import is required for this default USB-C connector usage.
 Connect pins with port selectors:
 
 ```tsx
-<trace from="R1.pin1" to="C1.pin1" />
+<trace from="R1.pin1" to="C1.pin1" schDisplayLabel="FILTER_OUT" />
 ```
+
+For direct port-to-port traces that represent a named signal, always include `schDisplayLabel` so the schematic renders the intended signal name instead of a generated fallback label.
 
 Connect to named nets. Net names must start with a letter or underscore and can only contain letters, numbers and underscores. 
 
@@ -157,6 +159,7 @@ Connect to named nets. Net names must start with a letter or underscore and can 
 Pin labels (in `pinLabels`) can contain letters, numbers, and underscores. Unlike net names, pin labels **can** start with a number (e.g., `"3V3"` is valid).
 
 Useful trace props (optional)
+- `schDisplayLabel`
 - `width` / `thickness`
 - `minLength` / `maxLength`
 

@@ -65,6 +65,10 @@
   <trace from="U1.VCC" to="net.V3_3" />
   <trace from="U1.GND" to="net.GND" />
   ```
+- For direct port-to-port traces that carry a named signal, add `schDisplayLabel` so the schematic label is explicit:
+  ```tsx
+  <trace from="R1.pin1" to="U1.SENSE" schDisplayLabel="SENSE" />
+  ```
 
 ## 7) Iterate with `tsci build`
 
