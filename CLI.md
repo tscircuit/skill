@@ -170,7 +170,36 @@ tsci snapshot --pcb-only
 tsci snapshot --test
 ```
 
-9) Auth / publish
+9) Simulate (SPICE analysis)
+- `tsci simulate analog <file>` runs an analog SPICE simulation (`analog` is currently the only `simulate` subcommand).
+- Accepts a tscircuit `.tsx` source or a circuit JSON file.
+- Builds the circuit JSON, converts it to a SPICE netlist, runs ngspice, and prints the results as a table.
+- The circuit needs at least one source (e.g. `<voltagesource>`) for a meaningful transient run.
+
+Flags:
+- `--disable-parts-engine` – Disable the parts engine (skip part-number resolution/lookups).
+
+Output columns:
+- `Index` – sample number
+- `time` – simulation time (transient analysis)
+- `v(...)` – node voltage probes
+- `i(...)` – source/branch current probes
+
+ngspice prints diagnostic info first, then the table. Values use exponential notation, e.g.:
+```text
+Index  time         v(n1)        v(n2)        i(vsimulation_voltage_source_0)
+0      2.000000e-6  5.000000e+0  9.998000e-4  -4.999000e-3
+1      4.000000e-6  5.000000e+0  1.999400e-3  -4.998001e-3
+2      8.000000e-6  5.000000e+0  3.998201e-3  -4.996002e-3
+...
+```
+
+Example:
+```bash
+tsci simulate analog index.circuit.tsx
+```
+
+10) Auth / publish
 - `tsci login` (browser-based)
 - `tsci push` (publish package)
 - `tsci auth print-token`
