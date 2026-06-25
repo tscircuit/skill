@@ -10,7 +10,7 @@ export default () => (
     <breakout autorouter="auto">
       <resistor name="R1" resistance="1k" footprint="0402" pcbX={0} pcbY={0} />
       <capacitor name="C1" capacitance="1uF" footprint="0402" pcbX={2} pcbY={0} />
-      <trace from="R1.2" to="C1.1" />
+      <trace name="sig1" from="R1.2" to="C1.1" />
       <breakoutpoint connection="R1.1" pcbX={5} pcbY={5} />
     </breakout>
   </board>
@@ -33,7 +33,7 @@ export default () => (
         pcbY={0}
       />
       <capacitor name="C1" capacitance="100nF" footprint="0402" pcbX={-3.5} pcbY={2.4} />
-      <trace from="C1.1" to="U1.GPIO1" />
+      <trace name="gpio1" from="C1.1" to="U1.GPIO1" />
     </breakout>
     <pinheader
       name="J1"
@@ -44,10 +44,10 @@ export default () => (
       pcbY={0}
       pcbRotation={90}
     />
-    <trace from="J1.VCC" to="U1.VCC" />
-    <trace from="J1.GND" to="U1.GND" />
-    <trace from="J1.SDA" to="U1.SDA" />
-    <trace from="J1.SCL" to="U1.SCL" />
+    <trace name="vcc" from="J1.VCC" to="U1.VCC" />
+    <trace name="gnd" from="J1.GND" to="U1.GND" />
+    <trace name="sda" from="J1.SDA" to="U1.SDA" />
+    <trace name="scl" from="J1.SCL" to="U1.SCL" />
   </board>
 )
 ```

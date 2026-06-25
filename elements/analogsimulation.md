@@ -10,8 +10,8 @@ export default () => (
     <voltagesource name="V1" voltage="5V" />
     <resistor name="R1" resistance="1k" />
 
-    <trace from=".V1 > .pin1" to=".R1 > .pin1" />
-    <trace from=".V1 > .pin2" to=".R1 > .pin2" />
+    <trace name="vin" from=".V1 > .pin1" to=".R1 > .pin1" />
+    <trace name="gnd" from=".V1 > .pin2" to=".R1 > .pin2" />
 
     <voltageprobe name="VP_IN" connectsTo=".V1 > .pin1" />
     <voltageprobe name="VP_OUT" connectsTo=".R1 > .pin1" />

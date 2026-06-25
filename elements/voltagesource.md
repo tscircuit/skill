@@ -16,8 +16,8 @@ export default () => (
     />
     <resistor name="R1" resistance="1k" />
 
-    <trace from=".V1 > .pin1" to=".R1 > .pin1" />
-    <trace from=".V1 > .pin2" to=".R1 > .pin2" />
+    <trace name="vin" from=".V1 > .pin1" to=".R1 > .pin1" />
+    <trace name="gnd" from=".V1 > .pin2" to=".R1 > .pin2" />
 
     <voltageprobe name="VP_OUT" connectsTo=".R1 > .pin1" />
     <analogsimulation duration="5ms" timePerStep="0.05ms" spiceEngine="ngspice" />

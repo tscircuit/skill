@@ -41,7 +41,7 @@ When this Skill is active:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`
 - On large projects (5+ components), use `<schematicsection />` to group components by function (e.g. "Power", "MCU", "IO"). This is one of the most important things for schematic readability. Assign each component a `schSectionName` and manually position all members of a section in close proximity using `schX`/`schY`.
-- Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- Use `<trace />` for connectivity; every trace must have a concise, stable `name` prop because it may appear as a visible net label when routing cannot draw the trace. Prefer short net or signal names such as `vcc`, `gnd`, `sda`, `reset`, `timing`, or `sig1`; avoid long endpoint slugs such as `u1_pin1_to_r2_pin2`. Prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.

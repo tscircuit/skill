@@ -10,7 +10,7 @@ export default () => (
    <group>
     <capacitor capacitance="1uF" footprint="0603" name="C1" />
     <net name="V5" />
-    <trace from="net.V5" to=".C1 .pos" />
+    <trace name="v5" from="net.V5" to=".C1 .pos" />
    </group>
   </board>
 )

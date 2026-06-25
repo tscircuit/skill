@@ -7,7 +7,7 @@ Autorouter hint that nudges a trace through preferred points.
 ```tsx
 export default () => (
   <board width="20mm" height="12mm">
-    <trace from=".U1 > .pin1" to=".R1 > .pin1">
+    <trace name="sig1" from=".U1 > .pin1" to=".R1 > .pin1">
       <tracehint offset={{ x: 0, y: 3 }} />
     </trace>
   </board>

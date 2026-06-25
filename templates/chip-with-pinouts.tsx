@@ -43,23 +43,23 @@ export default () => (
     <capacitor name="C2" capacitance="10nF" footprint="0402" />
     <capacitor name="C3" capacitance="100nF" footprint="0402" />
 
-    <trace from="U1.VCC" to="net.VCC" />
-    <trace from="U1.GND" to="net.GND" />
-    <trace from="U1.RESET" to="net.VCC" />
-    <trace from="C3.pin1" to="net.VCC" />
-    <trace from="C3.pin2" to="net.GND" />
+    <trace name="vcc" from="U1.VCC" to="net.VCC" />
+    <trace name="gnd" from="U1.GND" to="net.GND" />
+    <trace name="reset" from="U1.RESET" to="net.VCC" />
+    <trace name="vcc" from="C3.pin1" to="net.VCC" />
+    <trace name="gnd" from="C3.pin2" to="net.GND" />
 
-    <trace from="U1.CTRL" to="C2.pin1" />
-    <trace from="C2.pin2" to="net.GND" />
+    <trace name="ctrl" from="U1.CTRL" to="C2.pin1" />
+    <trace name="gnd" from="C2.pin2" to="net.GND" />
 
-    <trace from="R1.pin1" to="net.VCC" />
-    <trace from="R1.pin2" to="U1.DISCH" />
-    <trace from="U1.DISCH" to="R2.pin1" />
-    <trace from="R2.pin2" to="net.TIMING" />
+    <trace name="vcc" from="R1.pin1" to="net.VCC" />
+    <trace name="disch" from="R1.pin2" to="U1.DISCH" />
+    <trace name="disch" from="U1.DISCH" to="R2.pin1" />
+    <trace name="timing" from="R2.pin2" to="net.TIMING" />
 
-    <trace from="U1.THRES" to="net.TIMING" />
-    <trace from="U1.TRIG" to="net.TIMING" />
-    <trace from="C1.pin1" to="net.TIMING" />
-    <trace from="C1.pin2" to="net.GND" />
+    <trace name="timing" from="U1.THRES" to="net.TIMING" />
+    <trace name="timing" from="U1.TRIG" to="net.TIMING" />
+    <trace name="timing" from="C1.pin1" to="net.TIMING" />
+    <trace name="gnd" from="C1.pin2" to="net.GND" />
   </board>
 )
