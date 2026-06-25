@@ -13,7 +13,7 @@ export default () => (
     <subcircuit name="subcircuit2" schX={2}>
       <resistor name="R2" resistance="1k" footprint="0402"  />
     </subcircuit>
-    <trace name="sig1" from=".subcircuit1 .R1 .pin1" to=".subcircuit2 .R2 .pin1" />
+    <trace name="vout" from=".subcircuit1 .R1 .pin1" to=".subcircuit2 .R2 .pin1" />
   </board>
 )
 ```

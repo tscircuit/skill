@@ -10,7 +10,7 @@ export default () => (
     <resistor name="R1" resistance="1k" footprint="0402" pcbX={-2} schX={-2} />
     <capacitor name="C1" capacitance="100nF" footprint="0402" pcbX={2} />
     <trace
-      name="sig1"
+      name="rc"
       from=".R1 > .pin1"
       to=".C1 > .pin1"
     />
@@ -22,7 +22,7 @@ export default () => (
 
 Commonly used: `name`, `via`, `fromLayer`, `toLayer`, `code`, `message`, `path`, `key`, `thickness`
 
-Always include a concise, stable `name` on every `<trace />`; it may appear as a visible net label when routing cannot draw the trace. Prefer short net or signal names such as `vcc`, `gnd`, `sda`, `reset`, `timing`, or `sig1`; avoid long endpoint slugs such as `u1_pin1_to_r2_pin2`.
+Always include a concise, stable `name` on every `<trace />`; it may appear as a visible net label when routing cannot draw the trace. Choose a meaningful circuit-specific net or signal name; avoid long endpoint slugs and generic placeholders that do not describe the signal.
 
 ## References
 

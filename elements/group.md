@@ -12,7 +12,7 @@ export default () => (
     <resistor name="R1" resistance="1k" schX={-2} />
     <group schY={-3}>
       <resistor name="R2" resistance="1k" schX={2} />
-      <trace name="sig1" from={sel.R1.pin2} to={sel.R2.pin1} />
+      <trace name="vdiv" from={sel.R1.pin2} to={sel.R2.pin1} />
     </group>
   </board>
 )
