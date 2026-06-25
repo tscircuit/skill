@@ -155,8 +155,19 @@ Common formats
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
 - Use these visuals to inspect placement, orientation, and overall circuit understanding during iteration.
 - `tsci snapshot --test` switches to regression-test mode: it fails on visual diffs and does **not** overwrite snapshots.
+
+Snapshot types (pick which views to generate):
 - `tsci snapshot --pcb-only` generates only PCB visuals, which is especially useful for placement-focused iteration.
+- `tsci snapshot --schematic-only` generates only the schematic view.
+- `tsci snapshot --simulation-only` generates only simulation snapshots.
 - `tsci snapshot --3d` includes 3D snapshots in the output.
+- `tsci snapshot --layer top` (or `bottom`) renders a single PCB layer (implies `--pcb-only`).
+
+Useful options:
+- `--camera-preset <preset>` sets the 3D camera angle (implies `--3d`); presets include `top-down`, `top-down-ortho`, `top-left`, `top-right`, `left-sideview`, `right-sideview`, `front`, `top-center-angled`.
+- `--show-courtyards` overlays courtyard outlines in PCB snapshots.
+- `-u, --update` / `--force-update` write (or force-write) snapshots to disk; `--disable-parts-engine` skips the parts engine.
+- `path` accepts a file, directory, or glob (e.g. `examples/**/*.tsx`); `--concurrency <n>` snapshots multiple files in parallel.
 
 Recommended pattern:
 ```bash
@@ -165,6 +176,10 @@ tsci snapshot
 
 # During placement-heavy iterations: focus only on PCB output
 tsci snapshot --pcb-only
+
+# Generate only one view when that's all you need
+tsci snapshot --schematic-only
+tsci snapshot --simulation-only
 
 # In CI/regression checks: detect unexpected visual changes without overwriting
 tsci snapshot --test

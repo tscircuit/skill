@@ -84,6 +84,7 @@
 - Use `tsci build` in CI or before sharing.
 - Use `tsci snapshot` to generate visuals that help with placement analysis and quick circuit understanding.
 - Use `tsci snapshot --pcb-only` when you want a fast, placement-focused PCB view without schematic snapshots.
+- Use `tsci snapshot --schematic-only` or `--simulation-only` to render just the schematic or simulation view; add `--3d` (optionally with `--camera-preset`) for a 3D preview.
 - Use `tsci snapshot --test` in CI/regression checks to prevent overwriting snapshots and catch unexpected visual diffs.
 
 ## 9) Export what you need
