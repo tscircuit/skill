@@ -2,7 +2,7 @@
 
 Connectivity
 - All intended nets are connected; no floating power pins.
-- No accidental shorts between rails.
+- `tsci check shorts` passes with no detected shorts; inspect and resolve any generated `checks/check-shorts/` debug artifacts.
 
 Footprints and pinout
 - Footprints match intended package size and orientation.
