@@ -51,12 +51,16 @@ When this Skill is active:
 - Run `tsci build --pcb-png [file]` to inspect placement before checking routing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
 - Run `tsci build` to compile and validate the circuit.
+- After routing, run `tsci check shorts [file]` to detect unintended shorts between separate PCB copper groups. Omit `[file]` to use the project entrypoint; a prebuilt `*.circuit.json` file is also accepted.
+- A detected short makes `tsci check shorts` exit nonzero. Inspect `checks/check-shorts/bitmap.png` and `checks/check-shorts/pcb.svg`, fix the implicated copper, then rerun the check. Do not dismiss this failure as a generic DRC warning.
+- The default check analyzes Gerber-derived copper on both layers. Use `--mode pcb` for PCB geometry, `--layer top` or `--layer bottom` to narrow the scope, and `--pixels-per-mm <number>` only when a different bitmap resolution is needed.
 - DRC (Design Rule Check) errors can often be ignored during development—focus on getting the circuit correct first.
 - If routing struggles, reduce density, use `<group />` for sub-layouts, or change autorouter settings.
 - Use `tsci dev` only when you need interactive visual feedback (not typical for AI-driven iteration).
 
 6) Validate and export
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` when preparing to share/publish.
+- Run `tsci check shorts` after routing and before sharing, publishing, or producing fabrication outputs. Resolve every reported short before proceeding.
 - Run `tsci build` (and optionally `tsci snapshot`) before sharing/publishing.
 - Use `tsci export` for SVG/netlist/DSN/3D/library outputs.
 - For manufacturing, obtain fabrication outputs (Gerbers/BOM/PnP) from the export UI after `tsci dev`.

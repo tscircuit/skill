@@ -125,6 +125,12 @@ Then check placement of the entire board or a specific component:
 After placement, identify potential congestion before routing:
 - `tsci check routing-difficulty [file]`
 
+After routing, check for unintended copper shorts:
+- `tsci check shorts [file]`
+- With no `[file]`, the CLI resolves the project entrypoint. It also accepts a prebuilt `*.circuit.json` file.
+- The default is `--mode gerber --layer all`. Use `--mode pcb`, `--layer top`, `--layer bottom`, or `--pixels-per-mm <number>` when needed.
+- A detected short exits with status 1 and writes debug artifacts to `checks/check-shorts/bitmap.png` and `checks/check-shorts/pcb.svg`. Inspect them, fix the copper bridge or overlap, and rerun until the command reports no shorts.
+
 - `tsci build` (auto-detects entrypoint)
 - `tsci build path/to/file.circuit.tsx`
 
