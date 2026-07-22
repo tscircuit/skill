@@ -41,6 +41,7 @@ When this Skill is active:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`
 - On large projects (5+ components), use `<schematicsection />` to group components by function (e.g. "Power", "MCU", "IO"). This is one of the most important things for schematic readability. Assign each component a `schSectionName` and manually position all members of a section in close proximity using `schX`/`schY`.
+- When one large chip needs to appear on multiple schematic sheets, declare the `<chip />` once before the sheets, then add a `<schematicbox chipRef=".U1" />` inside each `<schematicsheet />`. Pass only that sheet's labels to the box and keep connections addressed to the original chip, such as `U1.VCC`. See the [`<schematicbox />` reference](./elements/schematicbox.md#split-one-chip-across-multiple-schematic-sheets).
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate

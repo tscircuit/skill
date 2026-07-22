@@ -1,8 +1,13 @@
 # `<schematicbox />`
 
-Schematic-space box for grouping or callouts.
+Use `<schematicbox />` for schematic-space grouping and callouts, or to show a
+selected set of pins from one chip on a schematic sheet.
 
-## Example
+## Visual box without `chipRef`
+
+Without `chipRef`, the element draws a visual annotation. Provide either both
+`width` and `height`, or a non-empty `overlay` array of port selectors. Do not
+combine the two sizing modes.
 
 ```tsx
 export default () => (
@@ -12,11 +17,128 @@ export default () => (
 )
 ```
 
+An overlay box calculates its bounds from the selected ports after layout:
+
+```tsx
+const selectedPortSelectors = [
+  ".U1 > .pin1",
+  ".U1 > .pin2",
+  ".U2 > .pin1",
+]
+
+<schematicbox
+  overlay={selectedPortSelectors}
+  padding={0.2}
+  title="Selected ports"
+  strokeStyle="dashed"
+/>
+```
+
+## Split one chip across multiple schematic sheets
+
+Declare the physical chip once, before any box references it. Place a
+`<schematicbox />` inside each sheet and use `chipRef` to select the source
+chip. Each box receives only the labels that should be visible on that sheet.
+
+```tsx
+const chipSelector = ".U1"
+const powerSheetName = "U1 Power"
+const ioSheetName = "U1 I/O"
+const sectionWidth = 2.245
+const sectionHeight = 1
+
+const allPinLabels = {
+  pin1: "VCC",
+  pin2: "GND",
+  pin3: "IO0",
+  pin4: "IO1",
+}
+
+const powerPinLabels = {
+  pin1: "VCC",
+  pin2: "GND",
+}
+
+const ioPinLabels = {
+  pin1: "IO0",
+  pin2: "IO1",
+}
+
+export default () => (
+  <board routingDisabled>
+    <chip name="U1" pinLabels={allPinLabels} />
+
+    <schematicsheet
+      name={powerSheetName}
+      displayName={powerSheetName}
+      sheetIndex={0}
+    >
+      <schematicbox
+        name="U1A"
+        chipRef={chipSelector}
+        width={sectionWidth}
+        height={sectionHeight}
+        pinLabels={powerPinLabels}
+        schPinArrangement={{
+          leftSide: ["pin1", "pin2"],
+          rightSide: [],
+        }}
+      />
+      <resistor
+        name="R1"
+        resistance="1k"
+        footprint="0402"
+        connections={{ pin1: "U1.VCC" }}
+      />
+    </schematicsheet>
+
+    <schematicsheet
+      name={ioSheetName}
+      displayName={ioSheetName}
+      sheetIndex={1}
+    >
+      <schematicbox
+        name="U1B"
+        chipRef={chipSelector}
+        width={sectionWidth}
+        height={sectionHeight}
+        pinLabels={ioPinLabels}
+        schPinArrangement={{
+          leftSide: ["pin1"],
+          rightSide: ["pin2"],
+        }}
+      />
+      <resistor
+        name="R2"
+        resistance="1k"
+        footprint="0402"
+        connections={{ pin1: "U1.IO0" }}
+      />
+    </schematicsheet>
+  </board>
+)
+```
+
+Important rules:
+
+- Declare the source `<chip />` before the `<schematicbox />` elements that
+  reference it.
+- `chipRef` is a component selector. For `name="U1"`, use `chipRef=".U1"`.
+- Values in each box's `pinLabels` must match labels on the source chip.
+- Box pin keys are local positions. For example, source `pin3: "IO0"` can be
+  placed at local `pin1: "IO0"` in a box.
+- Connect through the original chip name and label, such as `U1.IO0`; tscircuit
+  resolves the connection to the matching sheet-local port.
+
 ## Props
 
-Commonly used: `schX`, `schY`, `width`, `height`, `overlay`, `padding`, `paddingLeft`, `paddingRight`
+Commonly used: `name`, `chipRef`, `pinLabels`, `schPinArrangement`, `schX`,
+`schY`, `width`, `height`, `overlay`, `padding`, `paddingLeft`, `paddingRight`,
+`paddingTop`, `paddingBottom`, `title`, `titleAlignment`, `titleInside`,
+`strokeStyle`
 
 ## References
 
+- Guide: [Split a Component Across Schematic Sheets](https://docs.tscircuit.com/guides/tscircuit-essentials/splitting-a-component-across-schematic-sheets)
 - Props: [SchematicBoxProps](https://github.com/tscircuit/props#schematicboxprops-schematicbox)
 - Source: [lib/components/schematic-box.ts](https://github.com/tscircuit/props/blob/main/lib/components/schematic-box.ts)
