@@ -36,9 +36,14 @@ const selectedPortSelectors = [
 
 ## Split one chip across multiple schematic sheets
 
-Declare the physical chip once, before any box references it. Place a
-`<schematicbox />` inside each sheet and use `chipRef` to select the source
-chip. Each box receives only the labels that should be visible on that sheet.
+Declare the physical chip once, before any box references it. Use `chipRef` to
+select the source chip, and give each box only the labels that should be visible
+on its sheet.
+
+### Nest boxes inside sheets
+
+One option is to place each `<schematicbox />` inside its
+`<schematicsheet />`:
 
 ```tsx
 const chipSelector = ".U1"
@@ -119,6 +124,71 @@ export default () => (
 )
 ```
 
+### Assign boxes to sheets without nesting
+
+The sheets and boxes can also be siblings. Declare each sheet, then set the
+box's `schSheetName` to the matching sheet `name`:
+
+```tsx
+const interfaceChipPinLabels = {
+  pin1: "VDD",
+  pin2: "GND",
+  pin3: "RESET",
+  pin4: "TX",
+  pin5: "RX",
+  pin6: "IRQ",
+}
+
+export default () => (
+  <board width="18mm" height="12mm">
+    <chip
+      name="U1"
+      footprint="soic6"
+      pinLabels={interfaceChipPinLabels}
+    />
+
+    <schematicsheet
+      name="Power Sheet"
+      displayName="Power Sheet"
+      sheetIndex={0}
+    />
+    <schematicsheet
+      name="Interface Sheet"
+      displayName="Interface Sheet"
+      sheetIndex={1}
+    />
+
+    <schematicbox
+      name="U1 Power"
+      schSheetName="Power Sheet"
+      chipRef=".U1"
+      width={2.4}
+      height={1.2}
+      pinLabels={{ pin1: "VDD", pin2: "GND", pin3: "RESET" }}
+      schPinArrangement={{
+        leftSide: ["pin1", "pin2", "pin3"],
+        rightSide: [],
+      }}
+    />
+    <schematicbox
+      name="U1 Interface"
+      schSheetName="Interface Sheet"
+      chipRef=".U1"
+      width={2.4}
+      height={1.2}
+      pinLabels={{ pin1: "TX", pin2: "RX", pin3: "IRQ" }}
+      schPinArrangement={{
+        leftSide: ["pin1", "pin2", "pin3"],
+        rightSide: [],
+      }}
+    />
+  </board>
+)
+```
+
+`schSheetName` must exactly match the target sheet's `name`. This flat form is
+equivalent to nesting each box in its target sheet.
+
 Important rules:
 
 - Declare the source `<chip />` before the `<schematicbox />` elements that
@@ -132,13 +202,14 @@ Important rules:
 
 ## Props
 
-Commonly used: `name`, `chipRef`, `pinLabels`, `schPinArrangement`, `schX`,
-`schY`, `width`, `height`, `overlay`, `padding`, `paddingLeft`, `paddingRight`,
-`paddingTop`, `paddingBottom`, `title`, `titleAlignment`, `titleInside`,
-`strokeStyle`
+Commonly used: `name`, `chipRef`, `schSheetName`, `pinLabels`,
+`schPinArrangement`, `schX`, `schY`, `width`, `height`, `overlay`, `padding`,
+`paddingLeft`, `paddingRight`, `paddingTop`, `paddingBottom`, `title`,
+`titleAlignment`, `titleInside`, `strokeStyle`
 
 ## References
 
 - Guide: [Split a Component Across Schematic Sheets](https://docs.tscircuit.com/guides/tscircuit-essentials/splitting-a-component-across-schematic-sheets)
+- Example circuit: [assign boxes with `schSheetName` without nesting](https://github.com/tscircuit/core/blob/da17db77c9646a0300056c46c969189ed7c5a751/tests/features/schematic-sheet/schematic-sheet05.test.tsx)
 - Props: [SchematicBoxProps](https://github.com/tscircuit/props#schematicboxprops-schematicbox)
 - Source: [lib/components/schematic-box.ts](https://github.com/tscircuit/props/blob/main/lib/components/schematic-box.ts)
