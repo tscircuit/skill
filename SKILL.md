@@ -37,6 +37,7 @@ When this Skill is active:
 
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
+- Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package.
 - Use layout props intentionally:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`
