@@ -142,6 +142,18 @@ Notes
 Useful flags
 - `--all-images` (emit PCB/schematic/3D renders into `dist/`)
 
+Autorouter stage debugging
+- `tsci build [file] --autorouter-debug` logs each autorouting stage and writes
+  cumulative images to `dist/autorouter-debug/`.
+- `placement-unrouted.png` shows the PCB before routing starts.
+- `phase-N-routed.png` shows cumulative routing after zero-indexed stage `N`.
+  Fanout and its downstream router are separate stages.
+- Use `--autorouter-debug-dir <path>` to choose another artifact directory.
+- Add `--autorouter-dump-srj all` for every stage's
+  `phase-N.input.simple-route.json` and `phase-N.output.traces.json`.
+- Use `--autorouter-dump-srj failed` for only failed-stage data, or
+  `--autorouter-dump-srj phase:N` for one stage.
+
 DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
