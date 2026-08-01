@@ -44,6 +44,25 @@ When this Skill is active:
 - On large projects (5+ components), use `<schematicsection />` to group components by function (e.g. "Power", "MCU", "IO"). This is one of the most important things for schematic readability. Assign each component a `schSectionName` and manually position all members of a section in close proximity using `schX`/`schY`.
 - When one large chip needs to appear on multiple schematic sheets, declare the `<chip />` once before the sheets, then use one `<schematicbox chipRef=".U1" />` per sheet. Either nest each box inside its `<schematicsheet />`, or keep the elements as siblings and assign the box with `schSheetName`. Pass only that sheet's labels to the box and keep connections addressed to the original chip, such as `U1.VCC`. See the [`<schematicbox />` reference](./elements/schematicbox.md#split-one-chip-across-multiple-schematic-sheets).
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- For a decoupling capacitor, set both `decouplingFor` and `decouplingTo`. `decouplingFor` is the selector for the IC power pin; `decouplingTo` is usually the ground net. tscircuit automatically connects capacitor `pin1` (`pos`) to `decouplingFor` and `pin2` (`neg`) to `decouplingTo`, so do not add duplicate traces for the capacitor:
+
+```tsx
+<chip
+  name="U1"
+  footprint="soic8"
+  pinLabels={{ pin1: "VCC", pin4: "GND" }}
+/>
+<capacitor
+  name="C1"
+  capacitance="100nF"
+  footprint="0402"
+  decouplingFor=".U1 > .VCC"
+  decouplingTo="net.GND"
+/>
+
+<trace from=".U1 > .VCC" to="net.V3_3" />
+<trace from=".U1 > .GND" to="net.GND" />
+```
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
