@@ -112,7 +112,33 @@ For vertical-entry connectors, such as a battery connector inserted from above, 
 />
 ```
 
-Other insertion directions are `from_left`, `from_right`, `from_front`, and `from_back`.
+Other insertion directions are `from_left` (-X), `from_right` (+X), `from_top`
+(+Y), `from_bottom` (-Y) and `from_below` (-Z).
+
+`insertionDirection` describes the part **in its own footprint frame** -- which
+way the cable or mating part comes from as the footprint is drawn. It is not the
+board edge you want the part on. Placement supplies the rest: core rotates the
+declared direction by the component's `pcbRotation` and mirrors it for the
+mounting layer, then records the result on `pcb_component.insertion_direction`.
+
+So to move a part to a different edge, rotate the part and leave the declared
+direction alone:
+
+```tsx
+{/* Declared -X; rotating 180 degrees carries it round to +X. */}
+<connector name="J2" pcbX={19} pcbY={6} pcbRotation={180}
+  footprint={<footprint insertionDirection="from_left">{/* pads */}</footprint>}
+/>
+```
+
+The direction must match the part's CAD model, if it has one -- see
+[`<cadmodel />`](./cadmodel.md#model-orientation).
+
+`from_front` and `from_back` are deprecated spellings of `from_top` and
+`from_bottom`. They still parse, but are never emitted; prefer the canonical
+names. They were retired because they read as though they described a 3D
+viewport rather than the board as drawn in the 2D PCB view, and different
+packages had resolved that ambiguity in opposite directions.
 
 ## Props
 
