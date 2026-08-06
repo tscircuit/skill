@@ -17,7 +17,7 @@ export default () => (
     <board name="B1" width="52mm" height="36mm">
       {/* parts, some carrying <enclosure.cutoutaperture /> */}
     </board>
-    <enclosure.fdm.box boardRef=".B1" showAsTranslucentModel />
+    <enclosure.fdm.box boardRef=".B1" />
   </assembly.device>
 )
 ```
@@ -28,14 +28,18 @@ the lid and its lip clear every side-wall opening.
 
 ## Seeing inside it
 
-`showAsTranslucentModel` renders the box translucent so the board and its parts
-stay visible. It is presentation only: the geometry, and anything exported from
-it, is identical either way. Turn it on while placing parts, since an opaque box
-hides exactly the thing you are checking the openings against.
+Nothing to author. Enclosure parts render see-through by default, so the board
+and its parts stay visible while you check the openings against them.
+
+How a part is *shown* is a property of looking at it, not of the part, so it is
+not a prop and does not appear in the circuit JSON: the geometry and every
+export are identical either way. In the 3D viewer, each printed part -- base and
+lid -- has its own entry under **Appearance**, cycling see-through -> solid ->
+hidden, so you can take the lid off without losing the base.
 
 ## Props
 
-Commonly used: `boardRef`, `showAsTranslucentModel`, `width`, `height`, `depth`,
+Commonly used: `boardRef`, `width`, `height`, `depth`,
 `wallThickness`, `floorThickness`, `lidThickness`, `standoffHeight`,
 `boardClearance`, `topHeadroom`, `lidLipDepth`, `disableCutouts`
 
