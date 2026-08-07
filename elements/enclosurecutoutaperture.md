@@ -19,11 +19,23 @@ gets the hole for free.
 
 ## Which face it pierces
 
-You do not choose the face. It comes from the part's transformed
-`insertionDirection`, which already accounts for the component's rotation and
-mounting layer, so it names the edge the part is actually reached from. Rotate
-the part to move its opening to another wall; do not re-declare the direction.
-See [`<connector />`](./connector.md).
+You do not choose the face on the aperture. It comes from a direction declared on
+the part's `<footprint />`, transformed for the component's rotation and mounting
+layer, so it names the face the part is actually reached from. Rotate the part to
+move its opening to another wall; do not re-declare the direction.
+
+Which direction, in order:
+
+1. `cutoutApertureDirection` -- where the part's opening faces;
+2. `insertionDirection` -- where a cable or mating part attaches, used when the
+   part declares no aperture direction;
+3. failing both, the nearest reachable board edge, which is a guess.
+
+Most parts need only `insertionDirection`: a cable arrives through the opening it
+needs, so the two directions coincide. Declare `cutoutApertureDirection` when
+they differ -- a side-actuated switch is *installed* from above and *actuated*
+from the side, so its opening pierces a wall while nothing is ever inserted into
+it. See [`<footprint />`](./footprint.md#insertion-and-aperture-directions).
 
 `from_above` and `from_below` exit through the lid and the floor instead of a
 wall. Which one is carried by the direction itself: a layer flip is a 180 degree
