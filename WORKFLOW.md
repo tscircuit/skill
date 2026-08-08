@@ -15,14 +15,19 @@
 
 - Use `tsci search` to find:
   - JLCPCB components: `tsci search --jlcpcb "STM32F4"`
+  - DigiKey inventory: `tsci search --digikey "STM32F4"`
+  - Mouser inventory: `tsci search --mouser "STM32F4"`
   - KiCad footprints: `tsci search --kicad "SOIC8"`
   - Registry packages: `tsci search --tscircuit "ESP32"`
+- Combine supplier flags to compare stocked parts, for example
+  `tsci search --digikey --mouser "10k 0603 resistor"`.
 
 ## 4) Add/import parts
 
 - Prefer `tsci add <author/pkg>` when a reusable module exists.
 - Use `tsci import` when you must bring in a specific component (e.g., supplier part).
 - For JLCPCB parts: first search with `tsci search --jlcpcb "<query>"`, then import with `tsci import "<part number>"`.
+- DigiKey and Mouser searches return distributor part numbers, manufacturer part numbers, descriptions, and stock for discovery. They are not direct `tsci import` sources.
 
 ## 5) Define pinLabels and pinAttributes first
 

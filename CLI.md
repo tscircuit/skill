@@ -28,9 +28,14 @@ Typical output includes:
 
 Search flags:
 - `--jlcpcb` (or `--lcsc`) – Search JLCPCB/LCSC components by name or part number
+- `--digikey` – Search DigiKey components and cached stock
+- `--mouser` – Search Mouser components and cached stock
 - `--kicad` – Search KiCad footprint library
 - `--tscircuit` – Search tscircuit registry packages
 - `--json` – Return machine-readable JSON output instead of plain text
+
+JLCPCB is searched when no source flag is supplied. Source flags can be
+combined to search more than one provider in a single command.
 
 Examples:
 ```bash
@@ -44,6 +49,17 @@ tsci search --jlcpcb "C14877"
 # Search JLCPCB for Micro-USB connectors
 tsci search --jlcpcb "micro usb connector"
 
+# Search DigiKey inventory
+tsci search --digikey "10k 0603 resistor"
+# Output: RC0603FR-0710KL (311-10.0KHRCT-ND) - ... (stock: ...)
+
+# Search Mouser inventory
+tsci search --mouser "10k 0603 resistor"
+# Output: RC0603FR-0710KL (603-RC0603FR-0710KL) - ... (stock: ...)
+
+# Compare both distributor sources
+tsci search --digikey --mouser "STM32F4 microcontroller"
+
 # Search KiCad footprints
 tsci search --kicad "QFP-32"
 # Output: kicad:Package_QFP/LQFP-32_5x5mm_P0.5mm
@@ -55,26 +71,41 @@ tsci search --kicad "0402"
 tsci search --tscircuit "LED"
 # Output: seveibar/usb-c-flashlight - Stars: 5
 
-# Search without flags (searches all sources)
+# Search without flags (searches JLCPCB)
 tsci search "ESP32"
 
-# Search with JSON output (useful for scripts)
-tsci search --jlcpcb "ATmega328" --json
+# Search both distributors with JSON output (useful for scripts)
+tsci search --digikey --mouser "10k 0603 resistor" --json
 # Example output:
 # {
+#   "query": "10k 0603 resistor",
 #   "results": [
 #     {
-#       "source": "jlcpcb",
-#       "name": "ATMEGA328P-AU",
-#       "part_number": "C14877",
-#       "description": "Microcontroller Unit, 8-bit AVR",
-#       "manufacturer": "Microchip Tech",
-#       "stock": 20226,
-#       "price": "0.735"
+#       "source": "digikey",
+#       "digikey_product_number": "311-10.0KHRCT-ND",
+#       "mfr": "RC0603FR-0710KL",
+#       "manufacturer": "YAGEO",
+#       "package": "0603",
+#       "description": "...",
+#       "stock": 100000
+#     },
+#     {
+#       "source": "mouser",
+#       "mouser_product_number": "603-RC0603FR-0710KL",
+#       "mfr": "RC0603FR-0710KL",
+#       "manufacturer": "YAGEO",
+#       "package": "0603",
+#       "description": "...",
+#       "stock": 100000
 #     }
 #   ]
 # }
 ```
+
+DigiKey and Mouser results are loaded through tscircuit's cached search
+services. Their `stock` and `price` fields are snapshots and can change. These
+flags discover orderable parts; `tsci import` currently imports only from
+JLCPCB or the tscircuit registry.
 
 4) Add existing registry packages to your project
 - `tsci add <author/pkg>`

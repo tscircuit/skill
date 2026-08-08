@@ -30,10 +30,12 @@ When this Skill is active:
 
 3) Find and install components
 - Use `tsci search "<query>"` to discover footprints and tscircuit registry packages.
+- Use `tsci search --digikey "<query>"` or `tsci search --mouser "<query>"` when distributor stock and supplier part numbers matter. Both flags can be combined, and `--json` provides machine-readable results.
 - For USB-C receptacles/connectors, prefer builtin syntax with `<connector standard="usb_c" />` instead of importing from JLCPCB.
 - Use one of:
   - `tsci add <author/pkg>` for registry packages (installs `@tsci/*` packages)
   - `tsci import <query>` when you need to import a component from JLCPCB or the registry.
+- DigiKey and Mouser search results are for part discovery; `tsci import` does not directly import from those distributors.
 
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
