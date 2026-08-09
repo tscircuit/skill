@@ -19,10 +19,11 @@ gets the hole for free.
 
 ## Which face it pierces
 
-You do not choose the face on the aperture. It comes from a direction declared on
-the part's `<footprint />`, transformed for the component's rotation and mounting
-layer, so it names the face the part is actually reached from. Rotate the part to
-move its opening to another wall; do not re-declare the direction.
+You do not choose the face on the aperture. A direction declared on the part's
+`<footprint />` is transformed with the component and defines a continuous axis.
+A lid/floor direction selects that horizontal face; a side direction cuts the
+first wall the axis physically reaches. Rotate or move the part to move its
+opening; do not re-declare the direction.
 
 Which direction, in order:
 
@@ -42,20 +43,25 @@ wall. Which one is carried by the direction itself: a layer flip is a 180 degree
 rotation about the board's Y axis, so a part authored `from_above` reports
 `from_below` once mounted on the bottom layer.
 
-## Dimensions are in the face's frame
+## The aperture axis belongs to the part
 
-`width`, `height` and `depth` are measured in the frame of the face the opening
-pierces, not in board axes. The face fixes which axes they mean:
+`cutoutApertureDirection` (or the `insertionDirection` fallback) defines the
+primary aperture axis in the footprint's frame. It rotates and moves with the
+component. For a side opening, the enclosure casts that axis from the component
+centre and cuts the first wall it reaches; the wall can therefore change near a
+corner based on both position and rotation, not at a fixed 45 degrees.
 
-| Face | `width` | `height` | `depth` |
-| --- | --- | --- | --- |
-| `x_pos`, `x_neg` | Y | Z | X |
-| `y_pos`, `y_neg` | X | Z | Y |
-| `z_pos`, `z_neg` | part-local | part-local | Z |
+`width`, `height` and `depth` describe the cutting tool around that axis:
 
-So on any side wall `height` is the vertical dimension and `width` runs along the
-wall. On the lid and the floor the pair follows the part's own rotation, so a
-rotated rectangular opening stays aligned with the part it serves.
+- on a side opening, `height` is vertical, `width` is perpendicular to the axis
+  in the board plane, and `depth` follows the axis inboard;
+- on the lid or floor, `width` and `height` rotate with the footprint and `depth`
+  is vertical; and
+- a circle uses `radius` for its profile.
+
+An oblique circular tool naturally makes an elliptical intersection with the
+wall. The solver lengthens the tool enough to cross the wall without changing
+the authored component-relative depth.
 
 `depth` is how far the cut is projected inboard, so nothing behind the face --
 the lid lip today, mounting bosses later -- is left obstructing the part. It is
@@ -84,11 +90,10 @@ cable jacket fatter than its connector needs.
 ## Props
 
 Commonly used: `shape` (`rect` | `pill` | `circle`), `width`, `height`, `radius`,
-`margin`, `depth`, `widthDimensionOffset`, `heightDimensionOffset`, `boardSide`
+`margin`, `depth`, `widthDimensionOffset`, `heightDimensionOffset`
 
-`margin` is extra clearance applied on every edge. `boardSide` names the PCB
-layer the part is mounted on -- a Z-side concept, so it stays `"top"`/`"bottom"`
-rather than a face name.
+`margin` is extra clearance applied on every edge. The mounting side is not an
+aperture prop; it is derived from the owning component's `layer`.
 
 ## References
 

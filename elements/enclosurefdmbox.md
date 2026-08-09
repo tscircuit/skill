@@ -43,9 +43,11 @@ Commonly used: `boardRef`, `width`, `height`, `depth`,
 `wallThickness`, `floorThickness`, `lidThickness`, `standoffHeight`,
 `boardClearance`, `topHeadroom`, `lidLipDepth`, `disableCutouts`
 
-`topHeadroom` measures clearance above the board's tallest part, not the box
-interior, so setting it explicitly is the lever on total height. Set it and
-apertures stop growing the box.
+`topHeadroom` is the empty distance from the PCB's top surface to the inside of
+the lid -- it is **not** clearance above the tallest component. Omitted, the box
+may grow to clear parts that declare enclosure apertures. Set explicitly, it is
+taken literally and aperture-owning parts stop growing the box; other tall parts
+are not inferred, so check their CAD height yourself.
 
 ## References
 
