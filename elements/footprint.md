@@ -84,9 +84,46 @@ export default () => (
 )
 ```
 
+## Insertion and aperture directions
+
+Two optional props say how the part is physically interacted with. Both are
+authored in the part's **unrotated** frame and are properties of the part, not of
+one board: rotating or flipping the component rotates them with it.
+
+| Prop | Means |
+| --- | --- |
+| `insertionDirection` | the side a cable or mating part attaches from |
+| `cutoutApertureDirection` | the side the part's enclosure opening faces |
+
+Both use the same vocabulary, naming a **side** rather than a motion:
+`from_top` is +Y, `from_bottom` -Y, `from_left` -X, `from_right` +X,
+`from_above` +Z, `from_below` -Z. Cartesian spellings (`from_y_pos`, ...) are
+accepted. A receptacle on the +Y edge is `from_top` because that is the side the
+plug comes from, even though the plug moves in -Y as it seats.
+
+```tsx
+{/* A USB-C receptacle: the cable enters through the opening it needs, so one
+    direction says everything. */}
+<footprint insertionDirection="from_top">{/* pads */}</footprint>
+
+{/* A side-actuated switch: pressed into the board from above, actuated
+    sideways. Both are true, and the opening follows the second one. */}
+<footprint insertionDirection="from_above" cutoutApertureDirection="from_top">
+  {/* pads */}
+</footprint>
+```
+
+Declare `cutoutApertureDirection` only when it differs from
+`insertionDirection`; absent, the opening follows the insertion direction, which
+is right for every connector. Do not reuse `insertionDirection` to steer an
+opening on a part that has nothing inserted into it -- it is read by other tools
+as the mating side, and a switch has none.
+
+These drive [`<enclosure.cutoutaperture />`](./enclosurecutoutaperture.md#which-face-it-pierces).
+
 ## Props
 
-Commonly used: `children`, `originalLayer`, `circuitJson`, `src`, `name`, `footprint`, `connections`
+Commonly used: `children`, `originalLayer`, `circuitJson`, `src`, `name`, `footprint`, `connections`, `insertionDirection`, `cutoutApertureDirection`
 
 ## References
 

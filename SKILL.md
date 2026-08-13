@@ -91,6 +91,7 @@ When this Skill is active:
 ## Builtin Elements
 
 - [`<analogsimulation />`](./elements/analogsimulation.md)
+- [`<assembly.device />`](./elements/assemblydevice.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
 - [`<breakout />`](./elements/breakout.md)
@@ -111,6 +112,8 @@ When this Skill is active:
 - [`<currentsource />`](./elements/currentsource.md)
 - [`<cutout />`](./elements/cutout.md)
 - [`<diode />`](./elements/diode.md)
+- [`<enclosure.cutoutaperture />`](./elements/enclosurecutoutaperture.md)
+- [`<enclosure.fdm.box />`](./elements/enclosurefdmbox.md)
 - [`<fabricationnotedimension />`](./elements/fabricationnotedimension.md)
 - [`<fabricationnotepath />`](./elements/fabricationnotepath.md)
 - [`<fabricationnoterect />`](./elements/fabricationnoterect.md)
