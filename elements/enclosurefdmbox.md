@@ -33,9 +33,10 @@ and its parts stay visible while you check the openings against them.
 
 How a part is *shown* is a property of looking at it, not of the part, so it is
 not a prop and does not appear in the circuit JSON: the geometry and every
-export are identical either way. In the 3D viewer, each printed part -- base and
-lid -- has its own entry under **Appearance**, cycling see-through -> solid ->
-hidden, so you can take the lid off without losing the base.
+export are identical either way. In the 3D viewer, **Appearance → Enclosure**
+cycles the assembled base and lid together through see-through -> solid ->
+hidden. Independent base/lid controls are deferred until Circuit JSON carries
+an explicit role for each printed part.
 
 ## Props
 
