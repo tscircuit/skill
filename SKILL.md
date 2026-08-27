@@ -45,6 +45,7 @@ When this Skill is active:
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`
 - On large projects (5+ components), use `<schematicsection />` to group components by function (e.g. "Power", "MCU", "IO"). This is one of the most important things for schematic readability. Assign each component a `schSectionName` and manually position all members of a section in close proximity using `schX`/`schY`.
 - When one large chip needs to appear on multiple schematic sheets, declare the `<chip />` once before the sheets, then use one `<schematicbox chipRef=".U1" />` per sheet. Either nest each box inside its `<schematicsheet />`, or keep the elements as siblings and assign the box with `schSheetName`. Pass only that sheet's labels to the box and keep connections addressed to the original chip, such as `U1.VCC`. See the [`<schematicbox />` reference](./elements/schematicbox.md#split-one-chip-across-multiple-schematic-sheets).
+- Use `<antenna />` for a placed, open-ended PCB antenna. Give it a one-pad footprint, define its local copper geometry with `pcbPath`, and connect the circuit to its `.feed` port with a separate `<trace />`. See the [`<antenna />` reference](./elements/antenna.md).
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate
@@ -91,6 +92,7 @@ When this Skill is active:
 ## Builtin Elements
 
 - [`<analogsimulation />`](./elements/analogsimulation.md)
+- [`<antenna />`](./elements/antenna.md)
 - [`<assembly.device />`](./elements/assemblydevice.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
