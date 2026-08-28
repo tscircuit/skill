@@ -1,0 +1,603 @@
+# `tscircuit` Operational Guide
+
+## **Skill ID**
+
+`ANA-SKILL-TSCIRCUIT-OPERATION-GUIDE`
+
+## Overview
+
+This guide describes **how to assemble circuits using `tscircuit`** by:
+
+* instantiating existing components
+* organizing them into modules
+* arranging schematic and PCB layouts
+* defining connectivity using nets and traces
+
+It assumes that **all components referenced already exist** and are importable.
+
+---
+
+## 1. Circuit Structure
+
+### Root Container
+
+Every circuit must be wrapped in a `<board />` element.
+
+```tsx
+<board width="100mm" height="80mm" routingDisabled={true}>
+  {/* circuit contents */}
+</board>
+```
+
+* `<board />` is the root of schematic and PCB generation
+* All components, nets, groups, and traces must be children of `<board />`
+* NOTE: Always use `routingDisabled={true}` property. We disable auto-routing to speed up evaluation.
+---
+
+## 2. Using Existing Components
+
+### A. Built-in Primitives
+
+`tscircuit` provides globally available primitives that **do not require imports**.
+
+Common built-in primitives:
+
+#### 1. `<resistor />`
+
+* Pin details 
+
+| Pin # | Aliases | Description |
+| --- | --- | --- |
+| pin1 | left, pos | The left side pin in normal orientation |
+| pin2 | right, neg | The right side pin in normal orientation |
+
+* Mandatory Properties
+
+- name
+- resistance
+- footprint
+
+* Example 
+
+```ts
+export default () => (
+<board width="10mm" height="10mm">  
+    <resistor    
+        name="R1"    
+        footprint="0402"    
+        resistance="1k"  
+    />
+</board>)
+```
+
+
+#### 2. `<capacitor />`
+
+* Pin details 
+
+| Pin # | Aliases (Polarized) | Description |
+| --- | --- | --- |
+| pin1 | pos, anode, left | The positive terminal (required for polarized capacitors) |
+| pin2 | neg, cathode, right | The negative terminal (must be connected properly for polarized caps) |
+
+* Mandatory Properties
+
+- name
+- resistance
+- footprint
+
+* Example 
+
+```ts
+export default () => ( 
+  <board width="10mm" height="10mm">  
+    <capacitor    
+        name="C2"    
+        footprint="axial_p5mm"    
+        capacitance="10μF"    
+        polarized/> 
+  </board>)
+```
+
+Polarized capacitors must be placed with correct orientation to avoid damage.
+
+#### 3. `<inductor />`
+
+* Pin details 
+
+| Pin # | Aliases (Polarized) | Description |
+| --- | --- | --- |
+| pin1 |  left | First terminal of inductor |
+| pin2 |  right | Second terminal of inductor |
+
+* Mandatory Properties
+- name
+- footprint
+- inductance
+
+* Example 
+```ts
+export default () => (
+  <board width="15mm" height="10mm">
+    <inductor 
+      name="L1" 
+      footprint="0402" 
+      inductance="3.3nH"
+      schX={0}
+    />
+  </board>
+)
+```
+
+#### 4. `<diode />`
+
+* Pin details
+
+| Pin # | Aliases | Description |
+| --- | --- | --- |
+| pin1 | pos, anode | The positive terminal  |
+| pin2 | neg, cathode | The negative terminal |
+
+* Mandatory Properties
+- name 
+- footprint
+
+* Example 
+
+```ts
+export default () => (
+ <board width="10mm" height="10mm">
+  <diode name="D1" footprint="0805" />
+ </board>
+)
+```
+
+#### 5. `<led />`
+
+* Pin details
+
+| Pin # | Aliases | Description |
+| --- | --- | --- |
+| pin1 | pos, anode | The positive terminal  |
+| pin2 | neg, cathode | The negative terminal |
+
+* Mandatory Properties
+- name 
+- footprint
+
+* Example 
+```ts
+export default () => (
+  <board width="10mm" height="10mm">
+    <led name="D1" footprint="0805" color="blue"/>
+  </board>
+)
+```
+
+#### 6. `<mosfet />`
+
+* Pin details
+
+| Pin # | Aliases | Description |
+| --- | --- | --- |
+| pin1 | drain | Drain terminal  |
+| pin2 | source | Source terminal |
+| pin3 | gate | Gate terminal |
+
+* Mandatory properties
+
+- name
+- footprint
+- channelType
+  - "n" | "p"
+- mosfetMode
+  - "depletion" | "enhancement"
+
+
+* Example
+
+```ts
+export default () => (
+  <mosfet
+    name="Q1"
+    channelType="n"
+    mosfetMode="depletion"
+    footprint="sot23"
+  />
+)
+```
+
+#### 7. `<transistor />`
+
+* Pin details
+
+| Pin # | Aliases | Description |
+| --- | --- | --- |
+| pin1 | collector | collector terminal  |
+| pin2 | emitter | emitter terminal |
+| pin3 | base | base terminal |
+
+* Mandatory properties
+
+- name
+- footprint
+- type
+  - "npn" | "pnp" | "bjt" | "jfet" | "mosfet" | "igbt"
+
+
+
+* Example
+
+```ts
+export default () => (
+  <transistor
+    name="Q1"
+    type="npn"
+    footprint="sot23"
+  />
+)
+```
+
+#### 8. `<jumper />`
+
+* Mandatory properties
+- name
+- footprint
+
+* Example
+
+```tsx
+export default () => (
+  <board width="10mm" height="10mm">
+    <jumper name="J1" footprint="pinrow4" />
+  </board>
+)
+```
+
+* Jumper-Specific Properties
+
+| Property                  | Type                                           | Description                                  |
+| ------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| `pinCount`                | `2` | `3`                                      | Number of pins on the jumper                 |
+| `internallyConnectedPins` | `string[][]`                                   | Groups of pins that are internally connected |
+| `manufacturerPartNumber`  | `string`                                       | Manufacturer part number                     |
+| `pinLabels`               | `Record<number \| string, string \| string[]>` | Labels for individual pins or pin groups     |
+| `schPinStyle`             | `SchematicPinStyle`                            | Pin styling in the schematic                 |
+| `schPinSpacing`           | `number \| string`                             | Spacing between schematic pins               |
+| `schWidth`                | `number \| string`                             | Width of the schematic symbol                |
+| `schHeight`               | `number \| string`                             | Height of the schematic symbol               |
+| `schDirection`            | `"left"` | `"right"`                           | Direction the jumper faces in the schematic  |
+| `schPortArrangement`      | `SchematicPortArrangement`                     | Arrangement of schematic ports               |
+
+
+#### 9. `<pinheader />`
+The <pinheader /> element is used to create a male or female pin header with configurable spacing and number of pins.
+
+* Mandatory Properties
+- name
+- footprint
+- pinCount
+
+* Example 
+export default () => (
+ <board width="30mm" height="10mm">
+  <pinheader
+    name="J1"
+    pinCount={8}
+    gender="male"
+    pitch="2.54mm"
+    footprint="pinrow8_rows2"
+    doubleRow={true}
+    showSilkscreenPinLabels={true}
+    pinLabels={["VCC", "GND", "SDA", "SCL", "MISO", "MOSI", "SCK", "CS"]}
+    pcbX={0}
+    pcbY={0}
+  />
+ </board>
+)
+
+* Pinheader specific properties
+
+| Property                  | Type                                     | Default        | Description                                  |
+| ------------------------- | ---------------------------------------- | -------------- | -------------------------------------------- |
+| `pinCount`                | number                                   | *(required)*   | Number of pins in the header                 |
+| `pitch`                   | number | string                          | `"2.54mm"`     | Distance between pins                        |
+| `schFacingDirection`      | `"up"` | `"down"` | `"left"` | `"right"` | `"right"`      | Direction the header faces in schematic view |
+| `gender`                  | `"male"` | `"female"`                    | `"male"`       | Whether the header is male or female         |
+| `showSilkscreenPinLabels` | boolean                                  | `false`        | Whether to show pin labels in silkscreen     |
+| `doubleRow`               | boolean                                  | `false`        | Whether the header has two rows of pins      |
+| `holeDiameter`            | number | string                          | `"1mm"`        | Diameter of the through-hole for each pin    |
+| `platedDiameter`          | number | string                          | `"1.7mm"`      | Diameter of the plated area around each hole |
+| `pinLabels`               | string[]                                 | `undefined`    | Labels for each pin                          |
+| `facingDirection`         | `"left"` | `"right"`                     | `"right"`      | Direction the header is facing               |
+| `pcbX`                    | number                                   | `0`            | X position of the component                  |
+| `pcbY`                    | number                                   | `0`            | Y position of the component                  |
+| `rotation`                | number                                   | `0`            | Rotation of the component in degrees         |
+| `id`                      | string                                   | auto-generated | Unique identifier for the component          |
+
+
+---
+
+### B. Imported Components
+
+Components defined elsewhere (e.g., ICs or reusable blocks) may be imported and instantiated.
+
+```tsx
+import { ControllerIC } from "./lib/imports/ControllerIC"
+
+<ControllerIC name="U1" />
+```
+
+* Imported components are treated as black boxes
+* Pin names must be used exactly as exposed by the component
+
+---
+
+## 3. Nets
+
+### Declaring Nets
+
+Named nets are used for shared electrical nodes.
+
+```tsx
+<net name="VCC" />
+<net name="GND" />
+```
+
+* Nets should be declared near the top of the `<board />`
+* Nets may be referenced anywhere within the board
+* Net name should never start with a number ('<net name="12V"/> will result error)
+* Never use period(.) in net name (`<net name="V3.3"/> will result in error)
+---
+
+### Connecting to Nets
+
+Pins may be connected directly to nets.
+
+```tsx
+<trace from=".U1 > .VDD" to="net.VCC" />
+<trace from=".U1 > .GND" to="net.GND" />
+```
+NOTE: Pins of a component are addressed in the specific pattern ".<component_name> .<pin_name>". Make sure you follow this syntax
+---
+
+## 4. Connectivity
+
+### A. Point-to-Point Traces
+
+Use `<trace />` to connect two pins.
+
+```tsx
+<trace from=".U1 > .TX" to=".R1 > .pin1" />
+```
+
+* `from` and `to` use CSS-like selectors
+* Pin identifiers depend on the component definition
+
+---
+
+### B. Mixed Connectivity
+
+Both nets and direct traces may coexist.
+
+```tsx
+<trace from=".C1 > .pin1" to="net.VCC" />
+<trace from=".C1 > .pin2" to="net.GND" />
+```
+
+---
+
+## 5. Modular Organization with `<group />`
+
+### Purpose
+
+`<group />` is a container for organizing related components and traces.
+
+It may be used to:
+
+* cluster functionally related elements
+* simplify layout
+* move multiple elements together
+
+---
+
+### Auto-Layout Support
+
+`<group />` supports automatic layout for schematic and PCB.
+
+#### Schematic Layout Props
+
+* `schFlex`
+* `schFlexDirection="row" | "column"`
+* `schGap`
+
+#### PCB Layout Props
+
+* `pcbGrid`
+* `pcbGridCols`
+* `pcbGridGap`
+
+---
+
+### Example: Power Input Block
+
+```tsx
+<group
+  schFlex
+  schFlexDirection="row"
+  schGap="2mm"
+  pcbGrid
+  pcbGridCols={2}
+  pcbGridGap="1mm"
+>
+  <resistor name="R_Fuse" resistance="10" footprint="0603" />
+  <capacitor name="C_Bulk" capacitance="100uF" footprint="1206" />
+
+  <trace from=".R_Fuse > .pin2" to=".C_Bulk > .pos" />
+</group>
+```
+
+---
+
+## 6. Placement
+
+### Manual Placement
+
+Components or groups may be positioned explicitly.
+
+* Schematic: `schX`, `schY`
+* PCB: `pcbX`, `pcbY`
+
+```tsx
+<capacitor
+  name="C1"
+  capacitance="100nF"
+  footprint="0402"
+  schX={10}
+  schY={5}
+  pcbX={12}
+  pcbY={8}
+/>
+```
+
+---
+
+### Placement Strategy
+
+* Manual coordinates are typically used at **top-level**
+* Auto-layout is preferred inside dense groups
+
+---
+
+## 7. Canonical Assembly Example
+
+```tsx
+import { ControllerIC } from "/app/lib/ControllerIC"
+
+export default () => {
+  return (
+    <board width="100mm" height="80mm">
+      <net name="VCC" />
+      <net name="GND" />
+
+      <ControllerIC name="U1" />
+
+      <capacitor
+        name="C_Decouple"
+        capacitance="100nF"
+        footprint="0402"
+      />
+
+      <trace from=".U1 > .VDD" to="net.VCC" />
+      <trace from=".U1 > .GND" to="net.GND" />
+      <trace from=".C_Decouple > .pin1" to="net.VCC" />
+      <trace from=".C_Decouple > .pin2" to="net.GND" />
+    </board>
+  )
+}
+```
+
+---
+
+
+## 8. Built-in Elements Reference
+
+| Element                           | Description               |
+| --------------------------------- | ------------------------- |
+| `<battery />` | A power source that provides electrical energy through electrochemical reactions. |
+| `<breakout />` | A container used to guide the autorouter on where connections should exit a group. |
+| `<breakoutpoint />` | Marks the XY coordinate that the autorouter should use when connecting a net or pin inside a breakout. |
+| `<cadassembly />` | Used to put together the 3D models of a component when multiple models are used. |
+| `<cadmodel />` | Used to display a 3D model of a component. |
+| `<capacitor />` | Stores electrical energy in an electric field, used for filtering, energy storage, and timing. |
+| `<copperpour />` | Creates a copper pour (groundplane) connected to a specific net to improve signal integrity. |
+| `<crystal />` | Provides a stable clock signal essential for timing applications and microcontroller operations. |
+| `<cutout />` | Removes material from a board outline to add interior slots, mounting reliefs, or custom shapes. |
+| `<diode />` | Semiconductor device that allows current to flow primarily in one direction. |
+| `<footprint />` | Defines PCB elements like plated holes or SMT pads for a component. |
+| `<fuse />` | A safety device that protects electrical circuits by interrupting current flow when it exceeds a threshold. |
+| `<group />` | Basic container element used for structural organization and layout of other elements. |
+| `<hole />` | Used for mechanical mounting on the PCB; does not have conductive properties. |
+| `<inductor />` | Stores electrical energy in a magnetic field, used in filters, oscillators, and power supplies. |
+| `<jumper />` | Represents a small multi-pin connector, commonly a male or female header. Use `footprint` property to select the right number of pins(eg: `footprint="pinrow4"`) |
+| `<led />` | Light-emitting diode that emits light when forward current flows through it. |
+| `<mosfet />` | A type of transistor used to control the flow of current in a circuit. |
+| `<net />` | Represents a group of connected traces, typically used for power buses and ground. |
+| `<resistor />` | A two-pin non-polar component that resists the flow of electricity. |
+| `<solderjumper />` | A tiny jumper made from exposed pads on the PCB that can be bridged or cut. |
+| `<switch />` | A mechanical component used to connect or disconnect parts of a circuit. |
+| `<testpoint />` | A designated location on a PCB for testing, debugging, and measuring electrical signals. |
+| `<trace />` | Represents an electrical connection between two or more points in a circuit. |
+| `<transistor />` | A three-terminal semiconductor device used to amplify or switch electronic signals. |
+| `<via />` | A plated hole that electrically connects different layers of a PCB. |
+
+Please refer to the individual markdown files for more details on each component.
+
+## 9. Importing Local Library Components
+
+This section describes **how to import existing local component libraries** into a `tscircuit` circuit file.
+These components are **already defined** as `.tsx` modules and reside in the project’s local library directory.
+
+> You **must never redefine components**.
+> If a component exists in the local library, it **must be imported and instantiated**, not recreated.
+
+---
+
+### Library Location Convention
+
+All locally available component libraries are stored under:
+
+```text
+./lib/imports/
+```
+
+Each component is defined in its own `.tsx` file and exposes **exactly one exported component**.
+
+---
+
+### Import Syntax
+
+Use standard TypeScript import syntax with a **absolute path**:
+
+```ts
+import { LM555 } from "./lib/imports/LM555"
+```
+
+Multiple components may be imported as needed:
+
+```ts
+import { LM555 } from "./lib/imports/LM555"
+import { IR2110 } from "./lib/imports/IR2110"
+import { IRFZ44N } from "./lib/imports/IRFZ44N"
+```
+
+---
+
+### Instantiating Imported Components
+
+Once imported, components are instantiated like any other `tscircuit` element.
+
+Example:
+
+```tsx
+<LM555 name="U1" />
+<IR2110 name="U2" />
+<IRFZ44N name="Q1" />
+```
+
+**Rules:**
+
+* The `name` prop is mandatory
+* Imported components are treated as **black boxes**
+* Internal pin mappings must not be inferred or modified
+
+---
+
+### Interaction with Built-in Primitives
+
+Imported components may coexist with built-in primitives:
+
+```tsx
+<resistor name="R1" resistance="10k" footprint="0603" />
+<BZX84C24 name="D1" />
+```
