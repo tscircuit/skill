@@ -25,7 +25,33 @@ export default () => (
 
 ## Props
 
-Commonly used: `name`, `layer`, `connectsTo`, `padMargin`, `traceMargin`, `clearance`, `boardEdgeMargin`, `cutoutMargin`
+Commonly used: `name`, `layer`, `connectsTo`, `outline`, `padMargin`, `traceMargin`, `clearance`, `boardEdgeMargin`, `cutoutMargin`
+
+### `outline` — limit the pour to a polygon
+
+By default the pour fills the entire layer (minus pad clearances). Pass an
+`outline` array of `{x, y}` points to constrain the pour to a polygon —
+useful for excluding antenna keep-out zones, mechanical exclusions, or
+splitting a layer into multiple net regions:
+
+```tsx
+{/* Bottom-layer GND pour that covers only the lower half of the */}
+{/* board, leaving an antenna keep-out zone at the top.          */}
+<copperpour
+  connectsTo="net.GND"
+  layer="bottom"
+  boardEdgeMargin="0.3mm"
+  outline={[
+    { x: -12, y: -11 },
+    { x:  12, y: -11 },
+    { x:  12, y:   5 },
+    { x: -12, y:   5 },
+  ]}
+/>
+```
+
+The pour will still auto-fragment around traces and pads; `outline` just
+constrains the *region* in which the fill is allowed.
 
 ## References
 
