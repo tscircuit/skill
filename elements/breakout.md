@@ -52,10 +52,18 @@ export default () => (
 )
 ```
 
+## Saved fanout paths
+
+`<fanout>` is an alias of `<breakout>`. Use `pcbTracePaths` for pre-generated
+port-to-exit routes; core creates the exits and keeps the copper fixed during
+global routing. See [Saved fanout trace paths](../SAVED_FANOUT_PATHS.md)
+for a complete example and the placement, coverage, and via-in-pad rules.
+
 ## Props
 
 `<breakout />` accepts all the layout props of `<group />` plus:
 
+- `pcbTracePaths` — saved wire/via routes for every routing connection in this fanout
 - `padding` — uniform padding around the breakout region
 - `paddingLeft` / `paddingRight` / `paddingTop` / `paddingBottom` — per-side padding
 - `autorouter` — autorouter configuration inherited by children
