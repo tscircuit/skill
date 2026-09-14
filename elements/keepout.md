@@ -1,4 +1,4 @@
-# `<pcbkeepout />`
+# `<keepout />`
 
 Keepout region that blocks copper/features in a PCB area.
 
@@ -7,7 +7,7 @@ Keepout region that blocks copper/features in a PCB area.
 ```tsx
 export default () => (
   <board width="20mm" height="20mm">
-    <pcbkeepout shape="rect" pcbX={0} pcbY={0} width="6mm" height="4mm" />
+    <keepout shape="rect" pcbX={0} pcbY={0} width="6mm" height="4mm" />
   </board>
 )
 ```
