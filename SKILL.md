@@ -50,6 +50,7 @@ When this Skill is active:
 - For pre-generated fanout routes, use `<fanout pcbTracePaths={savedPaths}>` (or `<breakout>`). Read [Saved fanout trace paths](./SAVED_FANOUT_PATHS.md) for JSON imports, local coordinates, complete coverage, and via endpoints with `allowViaInPad`.
 - Use `<board routeRemaining={false}>` to skip implicit routing of remaining connections while keeping explicit routing phases and breakouts. Unrouted connections still produce DRC errors; `true` or omission keeps normal remaining routing. Nested subcircuits inherit the setting.
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- Use `sel` for net references as a typed alternative to net strings like "net.GND". You can create a `nets.ts` file with custom nets, just `export const nets = sel.net<"NET1" | "NET2">()` then use `nets.NET1` as the net reference.
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
