@@ -189,16 +189,61 @@ DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
 
-7) Export (SVG/netlist/3D/library)
+7) Export (SVG/PNG/netlist/3D/library)
 - `tsci export <file> -f <format>`
 
 Common formats
 - `schematic-svg`
-- `pcb-svg`
+- `pcb-svg` / `pcb-png`
 - `readable-netlist`
 - `specctra-dsn`
 - `gltf` / `glb`
 - `kicad-library`
+
+### X-Ray PCB images
+
+Use X-Ray exports to inspect a net across all copper layers without launching the
+interactive viewer. Check `tsci export --help` and `tsci snapshot --help` for
+`--x-ray-net` if the installed CLI may predate this feature.
+
+```bash
+tsci export board.tsx -f pcb-svg --x-ray-net GND --hidden-layer-opacity 0.2 -o ground.svg
+tsci export board.circuit.json -f pcb-png --x-ray-net GND --x-ray-net VCC --layer bottom -o power.png
+tsci snapshot board.circuit.tsx --x-ray-net GND --hidden-layer-opacity 0.2 --update
+```
+
+- Repeat `--x-ray-net <name-or-id>` to select multiple nets. Accepts exact source
+  net/trace names, trace display names, or connected Circuit JSON element IDs.
+  Quote names containing spaces. An ID selects the whole connected net; use it
+  when a name is ambiguous. Unknown selectors and nets without PCB copper fail.
+- Selected copper and its via/plated-hole drills remain fully opaque across all
+  layers. Other copper defaults to `0.2` opacity; use `0.05` for 5%, `0` to hide
+  it, or `1` for full opacity. Non-copper layers and unrelated drills are hidden.
+- `--layer top` or `--layer bottom` chooses the frontmost layer during X-Ray;
+  it does not filter the selected net down to that layer.
+- Export X-Ray options work only with `pcb-svg` and `pcb-png`. For snapshots,
+  `--x-ray-net` implies `--pcb-only` and conflicts with schematic-only,
+  simulation-only, 3D, and camera-preset options.
+- Snapshot suffixes are `-pcb-xray.snap.svg`, `-top-xray.snap.svg`, or
+  `-bottom-xray.snap.svg`, in `__snapshots__` beside the source file. The
+  selected net names are not in the filename. Keep the selection consistent when
+  comparing with `--test`; updating a different selection replaces that baseline.
+
+To reuse a selection for PCB exports, snapshots, and build preview images, set
+these defaults in `tscircuit.config.json`:
+
+```json
+{
+  "pcbSnapshotSettings": {
+    "xRayNets": ["GND", "VCC"],
+    "hiddenLayerOpacity": 0.2,
+    "layer": "top"
+  }
+}
+```
+
+Explicit CLI options override these defaults; repeated CLI net selectors replace
+the configured selection. Empty or omitted `xRayNets` keeps normal rendering.
 
 8) Visual snapshots for analysis and verification
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
