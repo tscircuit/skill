@@ -76,7 +76,7 @@ When this Skill is active:
 - Run `tsci check shorts` after routing and before sharing, publishing, or producing fabrication outputs. Resolve every reported short before proceeding.
 - Run `tsci build` (and optionally `tsci snapshot`) before sharing/publishing.
 - Use `tsci export` for SVG/PNG/netlist/DSN/3D/library outputs.
-- To inspect connected copper across layers, use `tsci export <file> -f pcb-png --x-ray-net <name-or-id>`. Read [X-Ray PCB images](./CLI.md#x-ray-pcb-images) for multiple nets, opacity, layer order, and snapshot behavior.
+- To inspect connected copper across layers, use `tsci export <file> -f pcb-png --x-ray-net <name-or-id>`. See [CLI.md](./CLI.md) for options.
 - For manufacturing, obtain fabrication outputs (Gerbers/BOM/PnP) from the export UI after `tsci dev`.
 
 ## Safety and non-goals
