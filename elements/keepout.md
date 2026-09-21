@@ -14,7 +14,16 @@ export default () => (
 
 ## Props
 
-Commonly used: `shape`, `radius`, `width`, `height`, `pcbX`, `pcbY`, `layer`
+Commonly used: `shape`, `radius`, `width`, `height`, `pcbX`, `pcbY`, `layer`, `layers`.
+
+- `warningOnly`: allow routing and placement, reporting prohibited overlaps as warnings instead of errors.
+- `allowTraces`: allow trace crossings without keepout errors or warnings.
+- `allowPlacements`: allow components and their pads/plated holes without keepout errors or warnings.
+- `excludeRefs`: component selectors exempt from keepout diagnostics, e.g. `[".ANT1"]`.
+
+The booleans default to `false`. The two permissions are independent, can be combined,
+and suppress diagnostics even with `warningOnly`; neither exempts vias. Copper pours
+still avoid the keepout with any of these props enabled.
 
 ## References
 
