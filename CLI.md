@@ -189,16 +189,27 @@ DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
 
-7) Export (SVG/netlist/3D/library)
+7) Export (SVG/PNG/netlist/3D/library)
 - `tsci export <file> -f <format>`
 
 Common formats
 - `schematic-svg`
-- `pcb-svg`
+- `pcb-svg` / `pcb-png`
 - `readable-netlist`
 - `specctra-dsn`
 - `gltf` / `glb`
 - `kicad-library`
+
+For X-Ray PCB SVG/PNG exports, repeat `--x-ray-net <name-or-id>` to select nets
+by exact net/trace name, display name, or connected element ID:
+
+```bash
+tsci export board.tsx -f pcb-png --x-ray-net GND --x-ray-net VCC --hidden-layer-opacity 0.2 -o power.png
+```
+
+Selected copper and its drills stay opaque across layers; other copper defaults
+to 20% opacity, with non-copper layers hidden. `--layer top|bottom` chooses the
+frontmost layer. Quote names containing spaces; use an ID for ambiguous names.
 
 8) Visual snapshots for analysis and verification
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
@@ -206,6 +217,7 @@ Common formats
 - `tsci snapshot --test` switches to regression-test mode: it fails on visual diffs and does **not** overwrite snapshots.
 - `tsci snapshot --pcb-only` generates only PCB visuals, which is especially useful for placement-focused iteration.
 - `tsci snapshot --3d` includes 3D snapshots in the output.
+- `tsci snapshot board.tsx --x-ray-net GND --update` saves a PCB-only X-Ray snapshot. It supports the same net, opacity, and layer options as export; do not combine it with schematic, simulation, or 3D modes. X-Ray filenames end in `-pcb-xray.snap.svg` (or `-top-xray.snap.svg` / `-bottom-xray.snap.svg`), so keep the selected nets consistent when comparing baselines.
 
 Recommended pattern:
 ```bash
