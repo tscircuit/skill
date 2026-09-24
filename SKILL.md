@@ -50,6 +50,25 @@ When this Skill is active:
 - For pre-generated fanout routes, use `<fanout pcbTracePaths={savedPaths}>` (or `<breakout>`). Read [Saved fanout trace paths](./SAVED_FANOUT_PATHS.md) for JSON imports, local coordinates, complete coverage, and via endpoints with `allowViaInPad`.
 - Use `<board routeRemaining={false}>` to skip implicit routing of remaining connections while keeping explicit routing phases and breakouts. Unrouted connections still produce DRC errors; `true` or omission keeps normal remaining routing. Nested subcircuits inherit the setting.
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- For a decoupling capacitor, set both `decouplingFor` and `decouplingTo`. `decouplingFor` is the selector for the IC power pin; `decouplingTo` is usually the ground net. tscircuit automatically connects capacitor `pin1` (`pos`) to `decouplingFor` and `pin2` (`neg`) to `decouplingTo`, so do not add duplicate traces for the capacitor:
+
+```tsx
+<chip
+  name="U1"
+  footprint="soic8"
+  pinLabels={{ pin1: "VCC", pin4: "GND" }}
+/>
+<capacitor
+  name="C1"
+  capacitance="100nF"
+  footprint="0402"
+  decouplingFor=".U1 > .VCC"
+  decouplingTo="net.GND"
+/>
+
+<trace from=".U1 > .VCC" to="net.V3_3" />
+<trace from=".U1 > .GND" to="net.GND" />
+```
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
