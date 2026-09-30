@@ -140,14 +140,9 @@ The interactive picker shows:
 Tip: If someone has already imported the part, prefer the registry version—it may have better pin mappings or schematic symbols.
 
 6) Convert footprints
-- `tsci convert MyFootprint.kicad_mod` converts KiCad to TSX.
-- `tsci convert MyFootprint.kicad_mod --name CustomPad -o imports/CustomPad.tsx` selects the exported name and output path.
-- `tsci convert imports/MyChip.tsx --footprinter` discovers a compact footprinter string from an existing footprint; it does not rewrite the source.
-- `tsci convert imports/MyChip.tsx --footprinter -o footprint.txt` saves just the string. Without `-o`, the terminal also shows the copper overlap score.
-- `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json` saves the best match, candidates, geometry scores, and pin mismatches for review. `--json` requires `--footprinter`.
-- Discovery accepts `.kicad_mod`, `.tsx`, `.ts`, `.jsx`, `.js`, and `.circuit.json`. Component input must render one component or footprint, not an entire board; Circuit JSON input must be an array of elements for the footprint.
-- Read [Footprint discovery and verification](./FOOTPRINTS.md#discover-a-string-from-an-existing-footprint) before replacing explicit pads. A high copper overlap score alone does not establish correct pin mapping.
-- Check `tsci convert --help` if the installed CLI does not recognize these flags.
+- `tsci convert MyFootprint.kicad_mod` converts KiCad to TSX; `--name` and `-o` set the component name and output path.
+- `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json` discovers a compact string and reports geometry/pin matches without rewriting the source. Omit `--json` for string output.
+- Discovery accepts component TSX/TS/JSX/JS, KiCad, or footprint `.circuit.json` arrays. Render one component, not a board. Verify the match as described in [FOOTPRINTS.md](./FOOTPRINTS.md#discover-a-string-from-an-existing-footprint).
 
 7) Build (generate circuit.json)
 

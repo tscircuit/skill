@@ -6,45 +6,13 @@ For JLCPCB parts, run `tsci import <C-number>`. It uses a string only when there
 
 ## Discover a string from an existing footprint
 
-Before manually reducing a verbose imported footprint, ask the CLI to discover a matching string:
-
-```bash
-tsci convert imports/MyChip.tsx --footprinter
-tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json
-```
-
-Use a component that renders only the chip or footprint, not the entire board.
-Discovery also accepts KiCad `.kicad_mod` files and footprint `.circuit.json`
-arrays. It reports candidates without rewriting the source. In the JSON report,
-inspect `best.footprinterString`, `copperIntersectionOverUnion`,
-`holeIntersectionOverUnion`, `geometryScore`, `pinMatchRate`, `pinsMatch`, and
-`pinMismatches`. A near-perfect copper overlap can still have an incorrect pin map.
-
-Before replacing `footprint={<footprint>...</footprint>}` with the chosen string:
-
-1. Preserve the original footprint as a baseline. Render the replacement independently; saved board/module geometry must not hide whether the new string was actually used.
-2. Compare every pad's center, dimensions, shape, corner radius, rotation, layer, and drill geometry in the same coordinate system. Check pin-1 orientation and exposed-pad geometry against the package drawing.
-3. Check each pad's port hints and resolved chip pin, including the exposed pad and its ground connection. Resolve all `pinMismatches`; never infer electrical equivalence from geometry scores alone.
-4. Preserve pin labels, pin attributes, schematic configuration, and other chip props when changing `footprint`. Rebuild and inspect the PCB snapshot. Keep explicit pads if the string cannot preserve the required geometry or mapping.
-
-For example, F1C100S discovery produced:
-
-```text
-mlp88_thermalpad6.75mmx6.75mm_p0.4mm_h11mm_pw0.2mm_pl0.8mm_pin1location(bottomside,left)
-```
-
-Despite approximately 0.999 copper overlap, `pinsMatch` was `false` because the
-original exposed pad was hinted as `thermalpad` while the candidate used `pin89`.
-For this chip, add the alias to its existing ground pin labels:
-
-```tsx
-pin89: ["GND", "thermalpad"]
-```
-
-Appending `_rounded0` preserved its original rectangular pad corners. Verify the
-resulting 89 pads and their electrical mapping before adopting it. Exposed-pad
-numbering and corner geometry are specific to each package; do not copy this
-mapping to other chips without checking their footprint and datasheet.
+Run `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json`.
+Use one component or footprint, not a board; discovery leaves the source unchanged.
+Inspect `best.footprinterString`, `pinsMatch`, and `pinMismatches`. Independently
+render the candidate and compare pad geometry and electrical pin mapping,
+including pin-1 orientation and exposed pads. High copper overlap alone is not
+proof of equivalence. Preserve pin labels/attributes and keep explicit pads if
+the string cannot match them.
 
 ## Examples
 
