@@ -122,4 +122,4 @@ Build the circuit after loading saved paths. Inspect the emitted PCB traces,
 via layers, and the continuation from each exit. Schema parsing checks the data
 format; it does not check pad geometry, coverage, or inherited routing settings.
 
-`tsci build` saves phase JSON in `.tscircuit/autorouting-artifacts/`. Copy the fanout stage into your source tree before editing, then pass it to `pcbTracePaths`. [Capture workflow and required versions](https://docs.tscircuit.com/guides/reusing-saved-fanout-trace-paths#capture-edit-and-replay-a-fanout-phase).
+`tsci build` saves phase JSON in `.tscircuit/autorouting-artifacts/`. Copy the fanout stage into your source tree before editing, then pass it to `pcbTracePaths`. [Saved route usage](https://docs.tscircuit.com/elements/fanout#reuse-saved-routes).
