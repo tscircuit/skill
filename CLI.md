@@ -227,3 +227,7 @@ tsci snapshot --test
 Guidance
 - Prefer `tsci --help` and `tsci <cmd> --help` when unsure about flags.
 - Avoid `tsci push` unless the user explicitly asks to publish.
+
+### Save fanout routes for manual edits
+
+`tsci build` writes replayable local phase JSON under `.tscircuit/autorouting-artifacts/<entrypoint-key>/`. Copy the fanout stage file into your source tree before editing, then import it into `<fanout pcbTracePaths={savedPaths}>`. See [Saved fanout paths](./SAVED_FANOUT_PATHS.md) for version requirements, local coordinates, complete coverage and validation.
