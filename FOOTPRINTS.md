@@ -4,6 +4,11 @@ Use a footprinter string for standard packages.
 
 For JLCPCB parts, run `tsci import <C-number>`. It uses a string only when there is a close footprinter string match. Otherwise it keeps the exact EasyEDA footprint. `--use-exact-footprint` skips conversion.
 
+To simplify explicit pads, run `tsci convert imports/MyChip.tsx --footprinter`
+(one component, not a board). Use the printed string as `footprint="..."` after
+checking pad geometry and pin mapping. The source is not rewritten. Optional
+`--json` returns a match report containing the string and scores, not a footprint file.
+
 ## Examples
 
 ```tsx
