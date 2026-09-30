@@ -139,12 +139,7 @@ The interactive picker shows:
 
 Tip: If someone has already imported the part, prefer the registry version—it may have better pin mappings or schematic symbols.
 
-6) Convert footprints
-- `tsci convert MyFootprint.kicad_mod` converts KiCad to TSX; `--name` and `-o` set the component name and output path.
-- `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json` discovers a compact string and reports geometry/pin matches without rewriting the source. Omit `--json` for string output.
-- Discovery accepts component TSX/TS/JSX/JS, KiCad, or footprint `.circuit.json` arrays. Render one component, not a board. Verify the match as described in [FOOTPRINTS.md](./FOOTPRINTS.md#discover-a-string-from-an-existing-footprint).
-
-7) Build (generate circuit.json)
+6) Build (generate circuit.json)
 
 Before placement checks or builds, run a netlist check first:
 - `tsci check netlist [file]`
@@ -194,7 +189,7 @@ DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
 
-8) Export (SVG/netlist/3D/library)
+7) Export (SVG/netlist/3D/library)
 - `tsci export <file> -f <format>`
 
 Common formats
@@ -205,7 +200,7 @@ Common formats
 - `gltf` / `glb`
 - `kicad-library`
 
-9) Visual snapshots for analysis and verification
+8) Visual snapshots for analysis and verification
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
 - Use these visuals to inspect placement, orientation, and overall circuit understanding during iteration.
 - `tsci snapshot --test` switches to regression-test mode: it fails on visual diffs and does **not** overwrite snapshots.
@@ -224,7 +219,7 @@ tsci snapshot --pcb-only
 tsci snapshot --test
 ```
 
-10) Auth / publish
+9) Auth / publish
 - `tsci login` (browser-based)
 - `tsci push` (publish package)
 - `tsci auth print-token`

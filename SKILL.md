@@ -40,7 +40,7 @@ When this Skill is active:
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
 - Nearly every schematic should be broken up using `<schematicsheet>` and `<schematicsection>` to organize related circuitry into clear, readable sheets and sections.
-- Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package. For existing explicit pads, try `tsci convert <component.tsx> --footprinter --json` and verify geometry and pin mapping before replacement.
+- Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package.
 - Use layout props intentionally:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`

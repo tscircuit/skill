@@ -4,15 +4,10 @@ Use a footprinter string for standard packages.
 
 For JLCPCB parts, run `tsci import <C-number>`. It uses a string only when there is a close footprinter string match. Otherwise it keeps the exact EasyEDA footprint. `--use-exact-footprint` skips conversion.
 
-## Discover a string from an existing footprint
-
-Run `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json`.
-Use one component or footprint, not a board; discovery leaves the source unchanged.
-Inspect `best.footprinterString`, `pinsMatch`, and `pinMismatches`. Independently
-render the candidate and compare pad geometry and electrical pin mapping,
-including pin-1 orientation and exposed pads. High copper overlap alone is not
-proof of equivalence. Preserve pin labels/attributes and keep explicit pads if
-the string cannot match them.
+To simplify explicit pads, run `tsci convert imports/MyChip.tsx --footprinter`
+(one component, not a board). Use the printed string as `footprint="..."` after
+checking pad geometry and pin mapping. The source is not rewritten. Optional
+`--json` returns a match report containing the string and scores, not a footprint file.
 
 ## Examples
 
