@@ -1,6 +1,6 @@
 ---
 name: tscircuit
-description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs. Use when working with tsci CLI (init/dev/search/add/import/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, or preparing fabrication outputs (Gerbers/BOM/PnP).
+description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs. Use when working with tsci CLI (init/dev/search/add/import/convert/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, or preparing fabrication outputs (Gerbers/BOM/PnP).
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 
@@ -40,7 +40,7 @@ When this Skill is active:
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
 - Nearly every schematic should be broken up using `<schematicsheet>` and `<schematicsection>` to organize related circuitry into clear, readable sheets and sections.
-- Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package.
+- Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package. To simplify existing explicit pads, use `tsci convert <component.tsx> --footprinter --json` and follow its geometry and pin-mapping verification workflow before replacing the footprint.
 - Use layout props intentionally:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
   - Schematic: `schX`, `schY`, `schRotation`, `schOrientation`

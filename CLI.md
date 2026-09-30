@@ -139,7 +139,17 @@ The interactive picker shows:
 
 Tip: If someone has already imported the part, prefer the registry version—it may have better pin mappings or schematic symbols.
 
-6) Build (generate circuit.json)
+6) Convert footprints
+- `tsci convert MyFootprint.kicad_mod` converts KiCad to TSX.
+- `tsci convert MyFootprint.kicad_mod --name CustomPad -o imports/CustomPad.tsx` selects the exported name and output path.
+- `tsci convert imports/MyChip.tsx --footprinter` discovers a compact footprinter string from an existing footprint; it does not rewrite the source.
+- `tsci convert imports/MyChip.tsx --footprinter -o footprint.txt` saves just the string. Without `-o`, the terminal also shows the copper overlap score.
+- `tsci convert imports/MyChip.tsx --footprinter --json -o footprint.json` saves the best match, candidates, geometry scores, and pin mismatches for review. `--json` requires `--footprinter`.
+- Discovery accepts `.kicad_mod`, `.tsx`, `.ts`, `.jsx`, `.js`, and `.circuit.json`. Component input must render one component or footprint, not an entire board; Circuit JSON input must be an array of elements for the footprint.
+- Read [Footprint discovery and verification](./FOOTPRINTS.md#discover-a-string-from-an-existing-footprint) before replacing explicit pads. A high copper overlap score alone does not establish correct pin mapping.
+- Check `tsci convert --help` if the installed CLI does not recognize these flags.
+
+7) Build (generate circuit.json)
 
 Before placement checks or builds, run a netlist check first:
 - `tsci check netlist [file]`
@@ -189,7 +199,7 @@ DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
 
-7) Export (SVG/netlist/3D/library)
+8) Export (SVG/netlist/3D/library)
 - `tsci export <file> -f <format>`
 
 Common formats
@@ -200,7 +210,7 @@ Common formats
 - `gltf` / `glb`
 - `kicad-library`
 
-8) Visual snapshots for analysis and verification
+9) Visual snapshots for analysis and verification
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
 - Use these visuals to inspect placement, orientation, and overall circuit understanding during iteration.
 - `tsci snapshot --test` switches to regression-test mode: it fails on visual diffs and does **not** overwrite snapshots.
@@ -219,7 +229,7 @@ tsci snapshot --pcb-only
 tsci snapshot --test
 ```
 
-9) Auth / publish
+10) Auth / publish
 - `tsci login` (browser-based)
 - `tsci push` (publish package)
 - `tsci auth print-token`
