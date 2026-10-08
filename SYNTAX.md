@@ -4,6 +4,10 @@
 
 A circuit is typically a default export that returns a `<board />` or a form-factor board component from `@tscircuit/common`.
 
+For a product with mechanical parts, use `<assembly.device>` as the root and
+nest boards and assembly elements inside it. Read [Assembly elements](./ASSEMBLY.md)
+for all eight elements and their placement rules.
+
 Example:
 
 ```tsx
@@ -23,6 +27,9 @@ You can place nearly any element with:
 - `pcbX`, `pcbY` (PCB position)
 - `pcbRotation`
 - `layer` (e.g., `"bottom"`)
+
+These are PCB layout props, not a general placement API for `assembly.*`
+elements. Use each assembly element's CAD transforms or attachment props.
 
 
 For schematics:

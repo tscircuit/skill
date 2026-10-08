@@ -52,6 +52,7 @@ When this Skill is active:
 - For pre-generated fanout routes, use `<fanout pcbTracePaths={savedPaths}>` (or `<breakout>`). Read [Saved fanout trace paths](./SAVED_FANOUT_PATHS.md) for JSON imports, local coordinates, complete coverage, and via endpoints with `allowViaInPad`.
 - Use `<board routeRemaining={false}>` to skip implicit routing of remaining connections while keeping explicit routing phases and breakouts. Unrouted connections still produce DRC errors; `true` or omission keeps normal remaining routing. Nested subcircuits inherit the setting.
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- For products combining boards, motors, displays, cables, or mechanical parts, read [Assembly elements](./ASSEMBLY.md). Choose the element that matches the mechanical role and use its documented placement API; assembly relationships do not replace electrical traces.
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
@@ -89,6 +90,7 @@ When this Skill is active:
 
 - CLI primer: `CLI.md`
 - Syntax primer: `SYNTAX.md`
+- Assembly elements and mechanical placement: `ASSEMBLY.md`
 - Workflow patterns: `WORKFLOW.md`
 - Pre-export checklist: `CHECKLIST.md`
 - Ready-to-copy templates: `templates/`
@@ -98,7 +100,14 @@ When this Skill is active:
 
 - [`<analogsimulation />`](./elements/analogsimulation.md)
 - [`<antenna />`](./elements/antenna.md)
+- [`<assembly.cable />`](./elements/assemblycable.md)
+- [`<assembly.cadassembly />`](./elements/assemblycadassembly.md)
 - [`<assembly.device />`](./elements/assemblydevice.md)
+- [`<assembly.motor />`](./elements/assemblymotor.md)
+- [`<assembly.part />`](./elements/assemblypart.md)
+- [`<assembly.printedpart />`](./elements/assemblyprintedpart.md)
+- [`<assembly.screen />`](./elements/assemblyscreen.md)
+- [`<assembly.subassembly />`](./elements/assemblysubassembly.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
 - [`<breakout />`](./elements/breakout.md)

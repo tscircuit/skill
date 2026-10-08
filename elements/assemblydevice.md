@@ -24,9 +24,17 @@ not need one.
 
 ## Props
 
-Commonly used: `name`
+`name` is optional. `children` are boards, mechanical parts, cables, or nested
+assemblies. An optional `model` specification or `modelUrl` supplies product-level
+geometry; provide at most one. There is no `cadModel` prop on a device.
+
+The device is not an electrical group or subcircuit. Boards retain their own
+electrical scope, while assembly selectors can cross those board boundaries
+inside the nearest device. A device without a model is a transparent container.
 
 ## References
 
 - Props: [AssemblyDeviceProps](https://github.com/tscircuit/props/blob/main/lib/assembly/device.ts)
+- [Docs](https://docs.tscircuit.com/elements/assembly-device)
+- [All assembly elements and mounting rules](../ASSEMBLY.md)
 - See also: [`<enclosure.fdm.box />`](./enclosurefdmbox.md), [`<board />`](./board.md)
