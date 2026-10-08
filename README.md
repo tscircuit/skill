@@ -13,6 +13,7 @@ The canonical entrypoint is `SKILL.md`.
 - `SKILL.md` – Main skill definition (frontmatter + instructions)
 - `CLI.md` – tsci CLI command reference
 - `SYNTAX.md` – tscircuit JSX syntax primer
+- `ASSEMBLY.md` – All assembly elements, CAD placement, face mounting, and physical cabling
 - `WORKFLOW.md` – Recommended development workflow
 - `BUS_LANES.md` – Fixed-layer bus phases, fanout handoffs, and length matching
 - `CHECKLIST.md` – Pre-export/pre-fab checklist
