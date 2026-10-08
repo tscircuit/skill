@@ -1,12 +1,12 @@
 ---
 name: tscircuit
-description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs. Use when working with tsci CLI (init/dev/search/add/import/convert/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, or preparing fabrication outputs (Gerbers/BOM/PnP).
+description: Build, modify, and debug tscircuit (React/TypeScript) PCB designs and mechanical assemblies. Use when working with tsci CLI (init/dev/search/add/import/convert/build/export/snapshot/push), choosing footprints, placing parts, wiring nets/traces, assembling motors/displays/cables/CAD parts, or preparing fabrication outputs (Gerbers/BOM/PnP).
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 
 # tscircuit
 
-You are helping the user design electronics using tscircuit (React/TypeScript) and the `tsci` CLI.
+You are helping the user design electronics and mechanical assemblies using tscircuit (React/TypeScript) and the `tsci` CLI.
 
 When this Skill is active:
 
