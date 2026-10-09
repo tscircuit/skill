@@ -73,6 +73,7 @@
 
 ## 7) Iterate with `tsci build`
 
+- Use `tsci check source` and `tsci check pin_specification` to review source diagnostics and pin requirements before layout.
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
 - Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement.
 - Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
@@ -81,7 +82,8 @@
 - Fix connectivity errors first, then placement.
 - Run `tsci snapshot` to inspect placement before checking routing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
-- Then address routing issues.
+- Then address routing issues. After routing, run `tsci check shorts` for unintended copper connections and `tsci check pcb-style` for odd-angle runs and stair stepping; inspect their artifacts and fix the reported copper.
+- Use `tsci check trace-length <pinOrNetRef> [file]` to inspect lengths for a specific pin or net; the target is required.
 - Use `tsci dev` only when interactive visual preview is needed (not typical for AI iteration).
 
 ## 8) Stabilize and regression-test

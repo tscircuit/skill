@@ -1,14 +1,17 @@
 # Pre-export / pre-fab checklist
 
 Connectivity
+- Review `tsci check source` and `tsci check netlist` diagnostics and resolve connectivity errors.
 - All intended nets are connected; no floating power pins.
 - `tsci check shorts` passes with no detected shorts; inspect and resolve any generated `checks/check-shorts/` debug artifacts.
 
 Footprints and pinout
+- Review `tsci check pin_specification` for unmet pin requirements.
 - Footprints match intended package size and orientation.
 - Pin 1 orientation is correct for polarized parts.
 
 PCB constraints
+- Review `tsci check pcb-style` and its highlighted SVG; fix long odd-angle runs and unnecessary stair stepping.
 - Board outline, mounting holes, and keepouts are correct.
 - Trace width/clearance meets target fab rules.
 
