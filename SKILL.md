@@ -52,6 +52,8 @@ When this Skill is active:
 - For pre-generated fanout routes, use `<fanout pcbTracePaths={savedPaths}>` (or `<breakout>`). Read [Saved fanout trace paths](./SAVED_FANOUT_PATHS.md) for JSON imports, local coordinates, complete coverage, and via endpoints with `allowViaInPad`.
 - Use `<board routeRemaining={false}>` to skip implicit routing of remaining connections while keeping explicit routing phases and breakouts. Unrouted connections still produce DRC errors; `true` or omission keeps normal remaining routing. Nested subcircuits inherit the setting.
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- Treat routing and copper-pour generation as separate steps. `automaticPoursEnabled` adds implicit pours after routing for nets marked or recognized as power or ground, and is skipped when PCB routing is disabled. It does not suppress power-net traces, reserve a layer, or make package pins terminate on a plane.
+- For dense packages with dedicated power planes, use `<autoroutingphase autorouter="fanout" />` with `fanoutPourNetMap` and explicit `<copperpour />` elements.
 
 5) Build and iterate
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
@@ -66,6 +68,7 @@ When this Skill is active:
   and inspect `placement-unrouted.png` plus each cumulative
   `phase-N-routed.png`. Add `--autorouter-dump-srj all` when the
   SimpleRouteJson input and output for every stage is also needed.
+- Before interpreting a routing experiment, confirm the changed option appears in the effective routing input or diagnostics. If two configurations produce byte-identical output, check for an ignored property or cached result before drawing a physical-layout conclusion.
 - After routing, run `tsci check shorts [file]` to detect unintended shorts between separate PCB copper groups. Omit `[file]` to use the project entrypoint; a prebuilt `*.circuit.json` file is also accepted.
 - A detected short makes `tsci check shorts` exit nonzero. Inspect `checks/check-shorts/bitmap.png` and `checks/check-shorts/pcb.svg`, fix the implicated copper, then rerun the check. Do not dismiss this failure as a generic DRC warning.
 - The default check analyzes Gerber-derived copper on both layers. Use `--mode pcb` for PCB geometry, `--layer top` or `--layer bottom` to narrow the scope, and `--pixels-per-mm <number>` only when a different bitmap resolution is needed.
