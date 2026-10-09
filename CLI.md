@@ -141,6 +141,10 @@ Tip: If someone has already imported the part, prefer the registry version—it 
 
 6) Build (generate circuit.json)
 
+Check source and pin requirements before layout:
+- `tsci check source [file]` – Report source-category errors and warnings.
+- `tsci check pin_specification [file]` – Check pin requirements (the command uses an underscore).
+
 Before placement checks or builds, run a netlist check first:
 - `tsci check netlist [file]`
 
@@ -156,16 +160,25 @@ Then check placement of the entire board or a specific component:
 After placement, identify potential congestion before routing:
 - `tsci check routing-difficulty [file]`
 
+Inspect trace length for a specific pin or net:
+- `tsci check trace-length <pinOrNetRef> [file]` – The target is required, e.g. `R1.pin1` or `net.GND`. Source inputs are routed before analysis; prebuilt Circuit JSON is also accepted.
+
 After routing, check for unintended copper shorts:
 - `tsci check shorts [file]`
 - With no `[file]`, the CLI resolves the project entrypoint. It also accepts a prebuilt `*.circuit.json` file.
 - The default is `--mode gerber --layer all`. Use `--mode pcb`, `--layer top`, `--layer bottom`, or `--pixels-per-mm <number>` when needed.
 - A detected short exits with status 1 and writes debug artifacts to `checks/check-shorts/bitmap.png` and `checks/check-shorts/pcb.svg`. Inspect them, fix the copper bridge or overlap, and rerun until the command reports no shorts.
 
+After routing, check PCB routing style:
+- `tsci check pcb-style [file]` – Detect long odd-angle runs and unnecessary stair stepping with default rules; source files are built and routed, and prebuilt Circuit JSON is accepted.
+- Reports an issue count and saves a highlighted overview to `checks/check-pcb-style/pcb.svg`. Use `--json` for JSON output or `--svg <file>` to choose the overview path. Style issues exit with status 1.
+
 - `tsci build` (auto-detects entrypoint)
 - `tsci build path/to/file.circuit.tsx`
 
 Notes
+- `tsci check [file]` reports general circuit errors and warnings; use the subcommands above to focus on one aspect.
+- Read the reported diagnostics: some checks print errors or warnings without a nonzero exit status.
 - If no path is provided, `tsci build` searches for `index.circuit.tsx` or `mainEntrypoint` in `tscircuit.config.json`.
 - `*.circuit.tsx` files are built automatically.
 - Outputs go to `dist/`.
