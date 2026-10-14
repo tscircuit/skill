@@ -39,6 +39,7 @@ When this Skill is active:
 
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
+- Keep circuit TSX and all imported dependencies browser-compatible. Avoid Node.js/Bun-only APIs, built-in modules such as `node:fs` or `node:path`, and runtime globals such as `process` or `Buffer`; keep filesystem and build tooling in separate scripts.
 - Nearly every schematic should be broken up using `<schematicsheet>` and `<schematicsection>` to organize related circuitry into clear, readable sheets and sections.
 - Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package.
 - Use layout props intentionally:
@@ -73,13 +74,14 @@ When this Skill is active:
 - The default shorts check analyzes Gerber-derived copper on all available copper layers. Use `--mode pcb` for PCB geometry, `--layer top` or `--layer bottom` to narrow the scope, and `--pixels-per-mm <number>` only when a different bitmap resolution is needed.
 - DRC (Design Rule Check) errors can often be ignored during development—focus on getting the circuit correct first.
 - If routing struggles, reduce density, use `<group />` for sub-layouts, or change autorouter settings.
-- Use `tsci dev` only when you need interactive visual feedback (not typical for AI-driven iteration).
+- Prefer `tsci build` during iteration; use `tsci dev` for interactive feedback and the pre-push Viewer review below.
 
 6) Validate and export
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` when preparing to share/publish.
 - Run `tsci check shorts` after routing and before sharing, publishing, or producing fabrication outputs. Resolve every reported short before proceeding.
 - Run `tsci check pcb-style` and review the highlighted routing issues before sharing or exporting. See `CLI.md` for the check commands and output options.
 - Run `tsci build` (and optionally `tsci snapshot`) before sharing/publishing.
+- Before pushing circuit code to tscircuit.com (`tsci push`) or GitHub, open the current TSX in the tscircuit Viewer via `tsci dev` and inspect the schematic, PCB, and 3D views. Confirm everything loads without browser/runtime or missing-asset errors and that models have reasonable scale, orientation, and placement. Fix issues and recheck before pushing. If the Viewer cannot be opened, report which visual checks remain unverified; do not claim validation passed.
 - Use `tsci export` for SVG/netlist/DSN/3D/library outputs.
 - For manufacturing, obtain fabrication outputs (Gerbers/BOM/PnP) from the export UI after `tsci dev`.
 
