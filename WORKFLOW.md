@@ -95,5 +95,6 @@
 
 ## 9) Export what you need
 
-- `tsci export` for SVG/netlist/DSN/3D/library
-- Fabrication zip (Gerbers/BOM/PnP): use the export UI after `tsci dev`
+- `tsci export` for SVG/netlist/DSN/3D/library/Gerbers/KiCad:
+  - Fabrication zip (Gerbers + drill + `bom.csv` + `pick_and_place.csv`): `tsci export <file> -f gerbers -o board-gerbers.zip`
+  - KiCad project zip: `tsci export <file> -f kicad_zip`

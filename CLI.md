@@ -202,10 +202,12 @@ DRC (Design Rule Check)
 - DRC errors are often reported but can frequently be ignored during development.
 - Focus on getting the circuit correct first; DRC violations can be addressed later when preparing for manufacturing.
 
-7) Export (SVG/netlist/3D/library)
-- `tsci export <file> -f <format>`
+7) Export (SVG/netlist/3D/library/fabrication)
+- `tsci export <file> -f <format> [-o <output>]`
 
 Common formats
+- `gerbers` (fabrication zip containing copper/mask/paste/silk/outline Gerbers, drill files, `bom.csv`, and `pick_and_place.csv`)
+- `kicad_zip` (zipped KiCad schematic/PCB project)
 - `schematic-svg`
 - `pcb-svg`
 - `readable-netlist`
