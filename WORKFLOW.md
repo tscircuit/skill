@@ -95,5 +95,7 @@
 
 ## 9) Export what you need
 
-- `tsci export` for SVG/netlist/DSN/3D/library
-- Fabrication zip (Gerbers/BOM/PnP): use the export UI after `tsci dev`
+- `tsci export` for fabrication files (Gerbers, BOM, Pick'n'Place) as well as SVG/netlist/DSN/3D/library outputs.
+- Run `tsci export <file> -f gerbers` to produce the fabrication zip directly from the CLI without needing the interactive `tsci dev` UI.
+- Additional manufacturing formats include `-f bom-csv` and `-f pnp-csv`.
+- The interactive export UI in `tsci dev` remains available when visual inspection is preferred.

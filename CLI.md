@@ -206,6 +206,9 @@ DRC (Design Rule Check)
 - `tsci export <file> -f <format>`
 
 Common formats
+- `gerbers`
+- `bom-csv`
+- `pnp-csv`
 - `schematic-svg`
 - `pcb-svg`
 - `readable-netlist`
