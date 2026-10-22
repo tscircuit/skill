@@ -80,8 +80,8 @@ When this Skill is active:
 - Run `tsci check shorts` after routing and before sharing, publishing, or producing fabrication outputs. Resolve every reported short before proceeding.
 - Run `tsci check pcb-style` and review the highlighted routing issues before sharing or exporting. See `CLI.md` for the check commands and output options.
 - Run `tsci build` (and optionally `tsci snapshot`) before sharing/publishing.
-- Use `tsci export` for SVG/netlist/DSN/3D/library outputs.
-- For manufacturing, obtain fabrication outputs (Gerbers/BOM/PnP) from the export UI after `tsci dev`.
+- Use `tsci export` for fabrication files (`-f gerbers`, `-f bom-csv`, `-f pnp-csv`) as well as SVG, netlist, DSN, 3D, and KiCad library outputs directly from the CLI.
+- The interactive export UI in `tsci dev` is also available when visual inspection of fabrication files is preferred.
 
 ## Safety and non-goals
 
