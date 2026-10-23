@@ -77,14 +77,112 @@ export default () => (
 )
 ```
 
-## USB-C standard example
+## USB Connectors (`standard="usb_c"`)
+
+tscircuit provides first-class support for USB receptacles and interfaces through `<connector />`. For standard USB Type-C ports, setting `standard="usb_c"` automatically supplies:
+1. **Canonical Pin Labels**: Built-in signal routing ports (`VBUS1`, `VBUS2`, `CC1`, `CC2`, `DP1`, `DP2`, `DM1`, `DM2`, `SBU1`, `SBU2`, `GND1`, `GND2`) and mounting tabs (`SHELL1`-`SHELL4`).
+2. **Integrated Schematic Symbol**: The official USB-C symbol is placed directly inside the component schematic box.
+3. **Automated Footprint and 3D CAD Loading**: The parts engine resolves standard surface-mount footprints and step models without requiring external JLC component imports.
+
+> **Note on Syntax**: In conversational prompts or templates, references to `<connector variant="usbc" />` correspond to `<connector standard="usb_c" />`. Use `standard="usb_c"` in TypeScript source code to satisfy the `ConnectorProps` interface.
+
+### Canonical Pinout Table
+
+| Signal | Group | Function |
+| :--- | :--- | :--- |
+| `VBUS1`, `VBUS2` | Power | Bus power supply (+5V nominal up to 20V with PD negotiation) |
+| `GND1`, `GND2` | Power | Ground reference returns |
+| `CC1`, `CC2` | Configuration | Cable orientation detection and current advertisement |
+| `DP1`, `DP2` | USB 2.0 Data | High-speed differential pair positive line ($D+$) |
+| `DM1`, `DM2` | USB 2.0 Data | High-speed differential pair negative line ($D-$) |
+| `SBU1`, `SBU2` | Sideband | Auxiliary sideband channels used in Alternate Modes |
+| `SHELL1`-`SHELL4` | Chassis | Metallic shield tabs for chassis grounding and strain relief |
+
+### Standard 5V Power Sink Circuit (UFP)
+
+To power a device as an Upstream Facing Port (UFP), terminate both `CC1` and `CC2` with independent 5.1 kΩ pull-down resistors to ground. This signals the USB-C source or host to supply +5V on `VBUS`.
 
 ```tsx
 export default () => (
-  <board width="20mm" height="20mm">
-    <connector name="USBC" standard="usb_c" pcbX={0} pcbY={0} />
+  <board width="40mm" height="30mm">
+    {/* USB-C Receptacle */}
+    <connector
+      name="USBC"
+      standard="usb_c"
+      pcbX="-15mm"
+      pcbY="0mm"
+      pcbRotation={0}
+      schX="-4"
+      schY="0"
+    />
+
+    {/* CC Pin Pull-Down Resistors (5.1k to GND for 5V UFP Sink) */}
+    <resistor
+      name="R_CC1"
+      resistance="5.1k"
+      footprint="0402"
+      schX="-1"
+      schY="-1"
+    />
+    <resistor
+      name="R_CC2"
+      resistance="5.1k"
+      footprint="0402"
+      schX="-1"
+      schY="-2"
+    />
+
+    {/* Decoupling Capacitors */}
+    <capacitor
+      name="C_BULK"
+      capacitance="10uF"
+      footprint="0805"
+      schX="2"
+      schY="1"
+    />
+    <capacitor
+      name="C_BYPASS"
+      capacitance="100nF"
+      footprint="0402"
+      schX="3"
+      schY="1"
+    />
+
+    {/* Power & Ground Rails */}
+    <trace from="USBC.VBUS1" to="net.VBUS" />
+    <trace from="USBC.VBUS2" to="net.VBUS" />
+    <trace from="USBC.GND1" to="net.GND" />
+    <trace from="USBC.GND2" to="net.GND" />
+    <trace from="USBC.SHELL1" to="net.GND" />
+    <trace from="USBC.SHELL2" to="net.GND" />
+
+    {/* CC Pull-Down Connections */}
+    <trace from="USBC.CC1" to="R_CC1.pin1" />
+    <trace from="R_CC1.pin2" to="net.GND" />
+    <trace from="USBC.CC2" to="R_CC2.pin1" />
+    <trace from="R_CC2.pin2" to="net.GND" />
+
+    {/* Decoupling Connections */}
+    <trace from="net.VBUS" to="C_BULK.pin1" />
+    <trace from="C_BULK.pin2" to="net.GND" />
+    <trace from="net.VBUS" to="C_BYPASS.pin1" />
+    <trace from="C_BYPASS.pin2" to="net.GND" />
   </board>
 )
+```
+
+### Full-Speed USB 2.0 Data Routing
+
+For reversible plug orientation on USB 2.0 circuits, tie the corresponding differential data lines together:
+- Bridge `USBC.DP1` and `USBC.DP2` to create `net.USB_DP`.
+- Bridge `USBC.DM1` and `USBC.DM2` to create `net.USB_DM`.
+- Connect `net.USB_DP` and `net.USB_DM` to microcontroller transceiver pins (often through 22 Ω series termination resistors).
+
+```tsx
+<trace from="USBC.DP1" to="net.USB_DP" />
+<trace from="USBC.DP2" to="net.USB_DP" />
+<trace from="USBC.DM1" to="net.USB_DM" />
+<trace from="USBC.DM2" to="net.USB_DM" />
 ```
 
 ## Accessible orientation warning
