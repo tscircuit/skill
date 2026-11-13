@@ -208,10 +208,42 @@ DRC (Design Rule Check)
 Common formats
 - `schematic-svg`
 - `pcb-svg`
+- `assembly-svg` – PCB assembly illustration
+- `drawing-svg` – An authored engineering drawing sheet
 - `readable-netlist`
 - `specctra-dsn`
 - `gltf` / `glb`
 - `kicad-library`
+
+Drawing sheets
+
+Give each `assembly.drawing.page` a unique name and at least one
+`assembly.drawing.partview`. The commands below use the two-sheet
+`carrier.circuit.tsx` example. [Drawing page reference](https://docs.tscircuit.com/elements/assembly-drawing-page)
+
+```bash
+# Write all sheets to dist/carrier/drawings/
+tsci build carrier.circuit.tsx --drawings
+
+# Build one sheet at dist/carrier/drawings/carrier-inspection.svg
+tsci build carrier.circuit.tsx --drawing carrier-inspection
+
+# Export one sheet from TSX or from a previous build
+tsci export carrier.circuit.tsx --drawing carrier-inspection -o inspection.svg
+tsci export dist/carrier/circuit.json --drawing carrier-inspection -o inspection.svg
+```
+
+`--drawing` accepts a page name or its generated SVG filename. On
+`tsci export`, it implies `-f drawing-svg` when you omit the format. If
+the input has one sheet, `tsci export <file> -f drawing-svg` selects it
+automatically. With multiple sheets, pass `--drawing`.
+Without `-o`, the SVG is written beside the input file. Relative `-o` paths
+are also resolved from the input file's directory.
+
+Set `build.drawings` to `true` in `tscircuit.config.json` to build all sheets
+by default, or set `build.drawing` to a page name to select one sheet.
+[Build reference](https://docs.tscircuit.com/command-line/tsci-build#drawing-sheets) ·
+[Export reference](https://docs.tscircuit.com/command-line/tsci-export#exporting-drawing-sheets)
 
 8) Visual snapshots for analysis and verification
 - `tsci snapshot` generates visual outputs (schematic/PCB, optionally 3D) and writes/overwrites snapshots by default.
