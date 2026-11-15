@@ -1,6 +1,6 @@
 ---
 name: tscircuit
-description: Use this skill when creating, editing, or debugging electronic circuits, schematics, or PCB layouts with tscircuit, including React/TypeScript circuit code. Invoke for component and footprint selection, electrical connections, schematic organization, PCB placement, trace routing, routing failures, design checks, and fabrication exports—even when the user does not mention the CLI. Use tscircuit's built-in autorouting and documented APIs; do not implement a custom router unless the user explicitly requests one.
+description: Use this skill when creating, editing, or debugging electronic circuits, schematics, PCB layouts, or assembly drawings with tscircuit, including React/TypeScript circuit code. Invoke for component and footprint selection, electrical connections, schematic organization, PCB placement, trace routing, routing failures, design checks, and fabrication exports—even when the user does not mention the CLI. Use tscircuit's built-in autorouting and documented APIs; do not implement a custom router unless the user explicitly requests one.
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 
@@ -14,6 +14,8 @@ When this Skill is active:
   - Reading local files in the repo (e.g., `tscircuit.config.json`, `index.circuit.tsx`, `package.json`)
   - Running `tsci --help` or the specific subcommand’s `--help`
 - Avoid “inventing” JSX props or CLI flags.
+
+For assembly drawing sheets and exploded views, read [Assembly drawings](./ASSEMBLY_DRAWINGS.md). Define motion in `assembly.explosion.stage` and point `assembly.drawing.explosionview` at it with `stageRef`.
 
 ## Default workflow
 
@@ -102,6 +104,16 @@ When this Skill is active:
 - [`<analogsimulation />`](./elements/analogsimulation.md)
 - [`<antenna />`](./elements/antenna.md)
 - [`<assembly.device />`](./elements/assemblydevice.md)
+- [`<assembly.drawing.dimension />`](./elements/assemblydrawingdimension.md)
+- [`<assembly.drawing.explosionview />`](./elements/assemblydrawingexplosionview.md)
+- [`<assembly.drawing.note />`](./elements/assemblydrawingnote.md)
+- [`<assembly.drawing.page />`](./elements/assemblydrawingpage.md)
+- [`<assembly.drawing.partlabel />`](./elements/assemblydrawingpartlabel.md)
+- [`<assembly.drawing.partview />`](./elements/assemblydrawingpartview.md)
+- [`<assembly.drawing.stage />`](./elements/assemblydrawingstage.md)
+- [`<assembly.drawing.titleblock />`](./elements/assemblydrawingtitleblock.md)
+- [`<assembly.explosion.move />`](./elements/assemblyexplosionmove.md)
+- [`<assembly.explosion.stage />`](./elements/assemblyexplosionstage.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
 - [`<breakout />`](./elements/breakout.md)
