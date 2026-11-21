@@ -68,4 +68,22 @@ checking pad geometry and pin mapping. The source is not rewritten. Optional
 
 Syntax: `<family>[pin-count]_<modifier><value>...`. Include units.
 
+## Inspect a footprinter string
+
+To see which pin sits where before placing a part, print the pads from the
+project directory. This also confirms that the string parses.
+
+```bash
+node -e '
+const { fp } = require("@tscircuit/footprinter")
+for (const e of fp.string("jst2_p2.5mm_xh").circuitJson())
+  if (e.type === "pcb_smtpad" || e.type === "pcb_plated_hole") console.log(e.port_hints, e.x, e.y)
+'
+# [ "1" ] -1.25 0
+# [ "2" ] 1.25 0
+```
+
+Coordinates are in millimetres in the footprint's own frame, before
+`pcbRotation`.
+
 Use custom `<footprint>` TSX only for unsupported manufacturer geometry, such as asymmetric pads, slots, shield tabs, segmented thermal pads, or mixed SMT and through-hole layouts. Never guess.

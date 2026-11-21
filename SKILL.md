@@ -29,7 +29,7 @@ When this Skill is active:
 - If a form-factor template is appropriate (Arduino Shield, Raspberry Pi HAT, etc.), prefer `@tscircuit/common` templates.
 
 3) Find and install components
-- Use `tsci search "<query>"` to discover footprints and tscircuit registry packages.
+- Use `tsci search "<query>"` to discover footprints and tscircuit registry packages. A flagless search queries every source and waits for all of them; add a source flag such as `--jlcpcb` when you know where the part should come from.
 - Use `tsci search --digikey "<query>"` or `tsci search --mouser "<query>"` when distributor stock and supplier part numbers matter. Both flags can be combined, and `--json` provides machine-readable results.
 - For USB-C receptacles/connectors, prefer builtin syntax with `<connector standard="usb_c" />` instead of importing from JLCPCB.
 - Use one of:
@@ -39,7 +39,8 @@ When this Skill is active:
 
 4) Write/modify TSX circuit code
 - Keep circuits as a default-exported function that returns JSX.
-- Nearly every schematic should be broken up using `<schematicsheet>` and `<schematicsection>` to organize related circuitry into clear, readable sheets and sections.
+- Nearly every schematic should be broken up using `<schematicsheet>` and `<schematicsection>` to organize related circuitry into clear, readable sheets and sections. A default A4 sheet holds about 31 × 21 schematic units; see the [`<schematicsheet />` reference](./elements/schematicsheet.md).
+- Size schematic boxes in the first draft: labelled pin headers, two-pin parts on a power rail, and chips with pins on all four sides are flagged with their defaults. Read [Schematic placement](./SCHEMATIC_PLACEMENT.md) before placing them.
 - Read `FOOTPRINTS.md` before writing custom footprint TSX; prefer a footprinter string when one matches the package.
 - Use layout props intentionally:
   - PCB: `pcbX`, `pcbY`, `pcbRotation`, `layer`
@@ -56,7 +57,7 @@ When this Skill is active:
 5) Build and iterate
 - Use `tsci check source [file]` for source diagnostics and `tsci check pin_specification [file]` for pin requirements before layout.
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
-- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement.
+- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement. Apply the `suggestedSchWidth`, `suggestedSchHeight` or `deltaSchRotation` each issue reports instead of estimating a value, and after an edit that only touches schematic props rerun this check alone.
 - Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Use `tsci check trace-length <pinOrNetRef> [file]` to inspect lengths for a pin or net, such as `R1.pin1` or `net.GND`. Source inputs are routed before analysis; prebuilt Circuit JSON is also accepted.
 - Run `tsci build --pcb-png [file]` to inspect placement before checking routing.
@@ -93,6 +94,7 @@ When this Skill is active:
 - CLI primer: `CLI.md`
 - Syntax primer: `SYNTAX.md`
 - Workflow patterns: `WORKFLOW.md`
+- Schematic box sizing and the schematic-placement check: `SCHEMATIC_PLACEMENT.md`
 - Pre-export checklist: `CHECKLIST.md`
 - Ready-to-copy templates: `templates/`
 - Helper scripts: `scripts/`
@@ -167,6 +169,7 @@ When this Skill is active:
 - [`<schematicrect />`](./elements/schematicrect.md)
 - [`<schematicrow />`](./elements/schematicrow.md)
 - [`<schematicsection />`](./elements/schematicsection.md)
+- [`<schematicsheet />`](./elements/schematicsheet.md)
 - [`<schematictable />`](./elements/schematictable.md)
 - [`<schematictext />`](./elements/schematictext.md)
 - [`<silkscreencircle />`](./elements/silkscreencircle.md)

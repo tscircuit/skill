@@ -18,7 +18,14 @@ export default () => (
 
 ## Props
 
-Commonly used: `name`, `connectsTo`, `highlightColor`, `isPowerNet`, `isGroundNet`, `footprint`, `connections`
+Commonly used: `name`, `connectsTo`, `highlightColor`, `isPowerNet`, `isGroundNet`, `nominalTraceWidth`, `minTraceClearance`, `routingPhaseIndex`, `footprint`, `connections`
+
+- `nominalTraceWidth` sets the routed width for the net. The autorouter still necks down to the pad width where a trace enters a narrower pad. Nets without it use the board's `defaultTraceWidth`.
+
+```tsx
+<net name="VM" isPowerNet nominalTraceWidth={0.55} />
+<net name="GND" isGroundNet nominalTraceWidth={0.4} />
+```
 
 ## References
 

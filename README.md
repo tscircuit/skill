@@ -15,6 +15,7 @@ The canonical entrypoint is `SKILL.md`.
 - `SYNTAX.md` – tscircuit JSX syntax primer
 - `WORKFLOW.md` – Recommended development workflow
 - `BUS_LANES.md` – Fixed-layer bus phases, fanout handoffs, and length matching
+- `SCHEMATIC_PLACEMENT.md` – Schematic box sizing rules and the schematic-placement check
 - `CHECKLIST.md` – Pre-export/pre-fab checklist
 - `templates/` – Reference TSX examples (copy into your project)
 - `scripts/` – Helper shell scripts

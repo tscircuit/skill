@@ -35,7 +35,36 @@ export const A555Timer = (props: Props) => {
 
 ## Props
 
-Commonly used: `manufacturerPartNumber`, `pinLabels`, `showPinAliases`, `pcbPinLabels`, `schPinArrangement`, `schPortArrangement`, `pinCompatibleVariants`, `schPinStyle`
+Commonly used: `manufacturerPartNumber`, `pinLabels`, `pinAttributes`, `noConnect`, `showPinAliases`, `pcbPinLabels`, `schPinArrangement`, `schPortArrangement`, `schWidth`, `schHeight`, `pinCompatibleVariants`, `schPinStyle`
+
+- `noConnect={["M0", "TOFF"]}` marks pins as intentionally left open (do-not-connect) without a `pinAttributes` entry for each.
+- `schWidth` / `schHeight` size the schematic box. Leave them unset unless `tsci check schematic-placement` reports a value; see [Schematic placement](../SCHEMATIC_PLACEMENT.md).
+
+## Parts from `tsci import`
+
+An imported part is a wrapper that sets `pinLabels`, `pinAttributes`,
+`footprint` and `supplierPartNumbers`, then spreads the caller's props last.
+The generated `pinAttributes` can be incomplete: for one JLCPCB driver IC only
+the ground pins were marked, and `tsci check pin_specification` reported
+
+```text
+source_no_power_pin_defined_warning: U1 has no pin with requires_power=true
+```
+
+Pass `pinAttributes` where the part is used instead of editing the file in
+`imports/`. It replaces the generated map rather than merging with it, so list
+every pin that needs an attribute. Keys can be pin labels.
+
+```tsx
+<DRV8424PWPR
+  name="U1"
+  pinAttributes={{
+    VM1: { requiresPower: true },
+    VM2: { requiresPower: true },
+    GND: { requiresGround: true },
+  }}
+/>
+```
 
 ## References
 
