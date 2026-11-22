@@ -112,6 +112,18 @@ For vertical-entry connectors, such as a battery connector inserted from above, 
 />
 ```
 
+When the footprint is a footprinter string, keep the string and add an empty
+`<footprint />` child that carries only the direction:
+
+```tsx
+<connector name="J1" footprint="jst2_p2.5mm_xh" pinLabels={{ pin1: "VM", pin2: "GND" }}>
+  <footprint insertionDirection="from_above" />
+</connector>
+```
+
+The full diagnostic, as printed by `tsci check placement`, is
+`pcb_connector_not_in_accessible_orientation_warning`.
+
 Other insertion directions are `from_left` (-X), `from_right` (+X), `from_top`
 (+Y), `from_bottom` (-Y) and `from_below` (-Z).
 
@@ -142,7 +154,12 @@ packages had resolved that ambiguity in opposite directions.
 
 ## Props
 
-Commonly used: `standard`, `name`, `footprint`, `connections`
+Commonly used: `standard`, `name`, `footprint`, `connections`, `pinLabels`, `schPinArrangement`
+
+A two-pin connector on a power rail is drawn horizontally by default and is
+reported as `TwoPinComponentShouldBeVertical`. Put the rail pins on the top and
+bottom with `schPinArrangement={{ topSide: ["VM"], bottomSide: ["GND"] }}`;
+see [Schematic placement](../SCHEMATIC_PLACEMENT.md).
 
 ## References
 

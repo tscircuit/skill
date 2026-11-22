@@ -25,7 +25,10 @@ export default () => (
 
 ## Props
 
-Commonly used: `pinCount`, `pitch`, `schFacingDirection`, `gender`, `showSilkscreenPinLabels`, `pcbPinLabels`, `doubleRow`, `rightAngle`
+Commonly used: `pinCount`, `pitch`, `schFacingDirection`, `gender`, `showSilkscreenPinLabels`, `pcbPinLabels`, `doubleRow`, `rightAngle`, `schWidth`
+
+- With `pinLabels`, set `schWidth` as well. The default schematic box (1.7 wide) is reported as `PinHeaderSchematicBoxTooWide` by `tsci check schematic-placement`; use the `suggestedSchWidth` it prints (0.77 for short labels). See [Schematic placement](../SCHEMATIC_PLACEMENT.md).
+- Without a `footprint` prop, the implied `pinrow` footprint leaves out silkscreen pin labels unless `showSilkscreenPinLabels` is set. An explicit `footprint="pinrow5_p2.54mm"` draws them; append `_nopinlabels` when you place your own silkscreen text.
 
 ## References
 

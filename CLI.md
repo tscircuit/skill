@@ -28,14 +28,21 @@ Typical output includes:
 
 Search flags:
 - `--jlcpcb` (or `--lcsc`) – Search JLCPCB/LCSC components by name or part number
+- `--ti` – Search Texas Instruments components
 - `--digikey` – Search DigiKey components and cached stock
 - `--mouser` – Search Mouser components and cached stock
 - `--kicad` – Search KiCad footprint library
 - `--tscircuit` – Search tscircuit registry packages
+- `--datasheets` – Search parts in the datasheet catalog
 - `--json` – Return machine-readable JSON output instead of plain text
 
-JLCPCB is searched when no source flag is supplied. Source flags can be
-combined to search more than one provider in a single command.
+With no source flag, every source is searched and the command waits for all of
+them. One slow provider holds up the whole result and ends as a line such as
+`Failed to search mouser: The operation timed out.` Pass the flag for the
+source you need: `--jlcpcb` alone returns the `C` number that `tsci import`
+takes. Source flags can be combined to search more than one provider in a
+single command. `TSCIRCUIT_DEFAULT_SEARCH_SOURCES=jlcpcb,kicad` sets which
+sources a flagless search covers.
 
 Examples:
 ```bash
@@ -71,7 +78,7 @@ tsci search --kicad "0402"
 tsci search --tscircuit "LED"
 # Output: seveibar/usb-c-flashlight - Stars: 5
 
-# Search without flags (searches JLCPCB)
+# Search without flags (searches every source; slowest)
 tsci search "ESP32"
 
 # Search both distributors with JSON output (useful for scripts)
@@ -150,6 +157,7 @@ Before placement checks or builds, run a netlist check first:
 
 Then check schematic placement:
 - `tsci check schematic-placement [file]`
+- It exits 0 even when it lists issues, and prints nothing when the schematic is clean. Each issue carries its fix (`suggestedSchWidth`, `suggestedSchHeight`, `deltaSchRotation`); see `SCHEMATIC_PLACEMENT.md`.
 
 Then generate a placement snapshot before routing checks:
 - `tsci snapshot`
@@ -178,6 +186,7 @@ After routing, check PCB routing style:
 
 Notes
 - `tsci check [file]` reports general circuit errors and warnings; use the subcommands above to focus on one aspect.
+- `source`, `pin_specification`, `schematic-placement`, `placement`, `routing-difficulty`, `shorts`, `pcb-style` and `trace-length` also accept a prebuilt `circuit.json`. `netlist` needs the source file.
 - Read the reported diagnostics: some checks print errors or warnings without a nonzero exit status.
 - If no path is provided, `tsci build` searches for `index.circuit.tsx` or `mainEntrypoint` in `tscircuit.config.json`.
 - `*.circuit.tsx` files are built automatically.

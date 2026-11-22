@@ -21,7 +21,37 @@ export default () => (
 
 ## Props
 
-Commonly used: `name`, `fromLayer`, `toLayer`, `holeDiameter`, `outerDiameter`, `connectsTo`, `netIsAssignable`, `footprint`
+Commonly used: `name`, `fromLayer`, `toLayer`, `holeDiameter`, `outerDiameter`, `connectsTo`, `netIsAssignable`, `tented`, `footprint`
+
+- `connectsTo="net.GND"` ties a hand-placed via to a net, for example a stitching or thermal via.
+- `tented` covers the via with solder mask. It takes `true` / `false` or `"top_and_bottom_tented"`, `"top_tented"`, `"bottom_tented"`, `"exposed"`. `defaultViaTenting` on `<board />` sets the default for every via.
+
+## Vias inside pads
+
+A via whose hole lands on an SMD pad is a placement error:
+
+```text
+pcb_placement_error: Via hole at (0.00mm, 0.00mm) overlaps SMD pad U1.EP at (0.00mm, 0.00mm)
+```
+
+For thermal or stitching vias next to an exposed pad, place the vias just
+outside the pad and join them to it with a `<copperpour />` on the same net:
+
+```tsx
+export default () => (
+  <board width="20mm" height="20mm">
+    <net name="GND" isGroundNet />
+    <chip name="U1" footprint="soic8_thermalpad2x2mm" pinLabels={{ pin9: "EP" }} connections={{ EP: "net.GND" }} />
+    <via pcbX={0} pcbY={4.5} fromLayer="top" toLayer="bottom" holeDiameter={0.25} outerDiameter={0.5} connectsTo="net.GND" tented />
+    <copperpour connectsTo="net.GND" layer="top" />
+    <copperpour connectsTo="net.GND" layer="bottom" />
+  </board>
+)
+```
+
+`isViaInPadAllowed` on `<board />` removes the placement error for a via inside
+a pad, but `tsci build` still reports `pcb_pad_pad_clearance_error` between the
+via and that pad (checked with tscircuit 0.0.3270).
 
 ## References
 

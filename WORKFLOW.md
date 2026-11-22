@@ -21,6 +21,8 @@
   - Registry packages: `tsci search --tscircuit "ESP32"`
 - Combine supplier flags to compare stocked parts, for example
   `tsci search --digikey --mouser "10k 0603 resistor"`.
+- Always pass a source flag. Without one, every source is queried and the
+  search is only as fast as the slowest provider.
 
 ## 4) Add/import parts
 
@@ -75,7 +77,8 @@
 
 - Use `tsci check source` and `tsci check pin_specification` to review source diagnostics and pin requirements before layout.
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
-- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement.
+- Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement. It exits 0 with issues listed, so read the output, and copy the suggested values it reports (see `SCHEMATIC_PLACEMENT.md`).
+- After an edit that changes only schematic props, rerun `tsci check schematic-placement` alone; the PCB checks and routing are unaffected.
 - Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Run `tsci build` to validate changes—this is the preferred iteration method for AI-driven development.
 - DRC (Design Rule Check) errors can often be ignored during development; focus on connectivity and component placement first.

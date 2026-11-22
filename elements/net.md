@@ -18,7 +18,14 @@ export default () => (
 
 ## Props
 
-Commonly used: `name`, `connectsTo`, `highlightColor`, `isPowerNet`, `isGroundNet`, `footprint`, `connections`
+Commonly used: `name`, `connectsTo`, `highlightColor`, `isPowerNet`, `isGroundNet`, `nominalTraceWidth`, `minTraceClearance`, `routingPhaseIndex`, `footprint`, `connections`
+
+- `nominalTraceWidth` sets the width the autorouter uses for the net. It still necks down to the pad width where a trace enters a narrower pad. Nets without it use the board's `defaultTraceWidth`. On a dense board, confirm the routed widths in `circuit.json` (`pcb_trace` route points carry `width`).
+
+```tsx
+<net name="VM" isPowerNet nominalTraceWidth={0.55} />
+<net name="GND" isGroundNet nominalTraceWidth={0.4} />
+```
 
 ## References
 
