@@ -68,22 +68,43 @@ checking pad geometry and pin mapping. The source is not rewritten. Optional
 
 Syntax: `<family>[pin-count]_<modifier><value>...`. Include units.
 
-## Inspect a footprinter string
+## Inspect a footprint
 
-To see which pin sits where before placing a part, print the pads from the
-project directory. This also confirms that the string parses.
+To see which pin sits where before placing a part, run
+`tsci inspect footprint` from the project directory.
 
 ```bash
-node -e '
-const { fp } = require("@tscircuit/footprinter")
-for (const e of fp.string("jst2_p2.5mm_xh").circuitJson())
-  if (e.type === "pcb_smtpad" || e.type === "pcb_plated_hole") console.log(e.port_hints, e.x, e.y)
-'
-# [ "1" ] -1.25 0
-# [ "2" ] 1.25 0
+tsci inspect footprint jst2_p2.5mm_xh
 ```
 
-Coordinates are in millimetres in the footprint's own frame, before
-`pcbRotation`.
+```text
+jst2_p2.5mm_xh
+source: footprinter string (@tscircuit/footprinter installed in this project)
+parameters: fn=jst p=2.5 xh=true id=1 pw=1.7 pl=2 w=7.62 h=5.97 num_pins=2
+pads: 2 plated holes
+copper: 4.2 x 2 mm (x -2.1 to 2.1, y -1 to 1)
+courtyard: 8.4 x 6.75 mm (x -4.2 to 4.2, y -3.9 to 2.85)
+
+pin  kind         shape                        x      y  width  height  hole  layers
+1    plated_hole  circular_hole_with_rect_pad  -1.25  0  1.7    2       1     top,bottom
+2    plated_hole  pill                         1.25   0  1.7    2       1     top,bottom
+
+Millimetres in the footprint's own frame (+x right, +y up), before pcbRotation.
+```
+
+- `x` and `y` are the pad centre. `width` and `height` are the copper extent.
+  `hole` is the drill size.
+- `parameters` shows how the string was parsed. Check it: a modifier that
+  footprinter does not recognise is dropped without an error, so a missing
+  thermal pad or a default pitch shows up here and in the pad count.
+- The argument can also be a library footprint
+  (`kicad:Resistor_SMD/R_0402_1005Metric`, `jlcpcb:C14877`) or a file: a
+  `.kicad_mod`, a `.circuit.json`, or a TSX file that renders one component,
+  such as `imports/MyChip.tsx`. For a component file the pin labels are listed
+  next to the pin numbers (`1,VCC`).
+- `--json` prints the same data as JSON.
+- A string that does not parse exits with status 1.
+- If the CLI reports `unknown command 'inspect'`, it predates this command; run
+  `tsci upgrade`.
 
 Use custom `<footprint>` TSX only for unsupported manufacturer geometry, such as asymmetric pads, slots, shield tabs, segmented thermal pads, or mixed SMT and through-hole layouts. Never guess.
