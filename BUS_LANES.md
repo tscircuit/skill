@@ -49,7 +49,7 @@ preserves the exact fanout copper and routes the gaps between exits. Later globa
 routing receives the completed bus traces as fixed copper; unassigned connections
 route afterward.
 
-The router adds no vias. Incompatible exit layers or an unsatisfiable planar
+The integrated `bus_lanes` pipeline routes the shared bus corridor on a single signal layer and can insert terminal escape vias (dogbones) when unrouted component pads sit on a different layer than the chosen carrier layer; it does not add mid-corridor layer jumps. Incompatible pre-routed fanout exit layers or an unsatisfiable planar
 route produce a routing error, with no fallback to a multilayer router. Fix the
 fanout layers, winding order, placement, or available routing space before retrying.
 
