@@ -146,6 +146,9 @@ The interactive picker shows:
 
 Tip: If someone has already imported the part, prefer the registry version—it may have better pin mappings or schematic symbols.
 
+Inspect a footprint before placing it:
+- `tsci inspect footprint <pathOrString>` – Print each pin's pad position, size and drill, plus the copper and courtyard extents. Accepts a footprinter string (`soic8`), a library footprint (`kicad:...`, `jlcpcb:C14877`), or a `.kicad_mod`, component TSX or Circuit JSON file. Add `--json` for JSON. See `FOOTPRINTS.md`.
+
 6) Build (generate circuit.json)
 
 Check source and pin requirements before layout:
