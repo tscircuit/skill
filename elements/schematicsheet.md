@@ -1,8 +1,8 @@
 # `<schematicsheet />`
 
-Declares one page of the schematic. Declare sheets as siblings of the components,
-order them with `sheetIndex`, and assign each component with `schSheetName` matching
-the sheet's `name`.
+Declares one page of the schematic. Assign a component to a sheet with
+`schSheetName`; schematic primitives such as `<schematictext />` can be nested
+inside the sheet instead.
 
 ## Example
 
