@@ -63,7 +63,9 @@ When this Skill is active:
 - Use `tsci check trace-length <pinOrNetRef> [file]` to inspect lengths for a pin or net, such as `R1.pin1` or `net.GND`. Source inputs are routed before analysis; prebuilt Circuit JSON is also accepted.
 - Run `tsci build --pcb-png --schematic-png [file]` and open both images. Fix visible schematic readability and PCB layout issues and re-render before finalizing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
+- Run `tsci check placement` and clear its errors before `tsci build`. A footprint or courtyard overlap makes the build skip autorouting for the whole board ("Autorouting was skipped because N PCB placement errors were found"), so a build with placement errors tells you nothing about routing.
 - Run `tsci build` to compile and validate the circuit.
+- "Autorouting was skipped because the 1mm maximum length ..." comes from a capacitor wired between a chip power pin and ground. See the [`<capacitor />` reference](./elements/capacitor.md#automatic-1-mm-trace-limit) for the ways to lift it.
 - When routing looks suspicious, run
   `tsci build [file] --autorouter-debug --autorouter-debug-dir dist/autorouter-debug`
   and inspect `placement-unrouted.png` plus each cumulative
@@ -71,7 +73,7 @@ When this Skill is active:
   SimpleRouteJson input and output for every stage is also needed.
 - After routing, run `tsci check shorts [file]` to detect unintended shorts between separate PCB copper groups. Omit `[file]` to use the project entrypoint; a prebuilt `*.circuit.json` file is also accepted.
 - A detected short makes `tsci check shorts` exit nonzero. Inspect `checks/check-shorts/bitmap.png` and `checks/check-shorts/pcb.svg`, fix the implicated copper, then rerun the check. Do not dismiss this failure as a generic DRC warning.
-- After routing, run `tsci check pcb-style [file]` for long odd-angle runs and unnecessary stair stepping. Use the default rules, inspect the counted overview in `checks/check-pcb-style/pcb.svg`, and fix the routing; subdividing trace points does not resolve a style issue.
+- After routing, run `tsci check pcb-style [file]` for long odd-angle runs and unnecessary stair stepping. Use the default rules, inspect the counted overview in `checks/check-pcb-style/pcb.svg`, and fix the routing; subdividing trace points does not resolve a style issue. To fix a flagged trace, change the placement of the parts it joins or route that one trace by hand with `pcbPath`; read [Manual routing with `pcbPath`](./elements/trace.md#manual-routing-with-pcbpath) for its coordinate frame first.
 - The default shorts check analyzes Gerber-derived copper on all available copper layers. Use `--mode pcb` for PCB geometry, `--layer top` or `--layer bottom` to narrow the scope, and `--pixels-per-mm <number>` only when a different bitmap resolution is needed.
 - DRC (Design Rule Check) errors can often be ignored during development—focus on getting the circuit correct first.
 - If routing struggles, reduce density, use `<group />` for sub-layouts, or change autorouter settings.

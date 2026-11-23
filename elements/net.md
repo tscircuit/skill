@@ -27,6 +27,12 @@ Commonly used: `name`, `connectsTo`, `highlightColor`, `isPowerNet`, `isGroundNe
 <net name="GND" isGroundNet nominalTraceWidth={0.4} />
 ```
 
+- `routingPhaseIndex` routes the whole net in its own earlier autorouting pass; lower indexes go first and everything without an index goes last. No `<autoroutingphase />` is needed. `<autoroutingphase connections>` does not accept `net.GND`; it takes trace names and port selectors.
+
+```tsx
+<net name="GND" isGroundNet routingPhaseIndex={0} />
+```
+
 ## References
 
 - Props: [NetProps](https://github.com/tscircuit/props#netprops-net)

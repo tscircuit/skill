@@ -82,7 +82,7 @@
 - Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Run `tsci build` to validate changes—this is the preferred iteration method for AI-driven development.
 - DRC (Design Rule Check) errors can often be ignored during development; focus on connectivity and component placement first.
-- Fix connectivity errors first, then placement.
+- Fix connectivity errors first, then placement. Placement errors are not ignorable: a footprint or courtyard overlap makes `tsci build` skip autorouting for the whole board, so clear `tsci check placement` before judging routing.
 - Run `tsci snapshot` to inspect placement before checking routing.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
 - Then address routing issues. After routing, run `tsci check shorts` for unintended copper connections and `tsci check pcb-style` for odd-angle runs and stair stepping; inspect their artifacts and fix the reported copper.
