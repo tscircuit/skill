@@ -2,7 +2,7 @@
 
 Groups components into a named section on the schematic (e.g. "Power", "Digital").
 
-Use `schSectionName` on any component to assign it to a section, then declare the section with `<schematicsection />`.
+Declare self-closing `<schematicsection />` elements alongside the components and assign members with `schSectionName` matching the section's `name`.
 
 > **No auto-layout.** `<schematicsection />` does NOT move components. You must manually place all components in the section in close proximity using `schX`/`schY` so the section renders as a coherent group.
 
@@ -47,7 +47,7 @@ export default () => (
     {/* IO section — cluster around schX=12, well separated from Power */}
     <pushbutton
       name="BTN1"
-      footprint="button_4pin"
+      footprint="pushbutton"
       schSectionName="IO"
       schX={12}
       schY={0}
@@ -70,6 +70,8 @@ export default () => (
 |------|------|----------|-------------|
 | `name` | `string` | yes | Unique identifier for the section |
 | `displayName` | `string` | no | Human-readable label shown on schematic |
+
+There is no section index prop; member positions determine the section's location.
 
 ## Assigning components to a section
 

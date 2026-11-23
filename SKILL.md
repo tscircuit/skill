@@ -60,7 +60,7 @@ When this Skill is active:
 - Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement. Apply the `suggestedSchWidth`, `suggestedSchHeight` or `deltaSchRotation` each issue reports instead of estimating a value, and after an edit that only touches schematic props rerun this check alone.
 - Do not finalize unless both `tsci check schematic-placement` and `tsci check placement` pass with no actionable placement violations; if violations exist, fix layout and rerun until clean.
 - Use `tsci check trace-length <pinOrNetRef> [file]` to inspect lengths for a pin or net, such as `R1.pin1` or `net.GND`. Source inputs are routed before analysis; prebuilt Circuit JSON is also accepted.
-- Run `tsci build --pcb-png [file]` to inspect placement before checking routing.
+- Run `tsci build --pcb-png --schematic-png [file]` and open both images. Fix visible schematic readability problems and re-render before finalizing; passing automated checks alone is insufficient.
 - Run `tsci check routing-difficulty` after placement to identify potential areas of congestion.
 - Run `tsci build` to compile and validate the circuit.
 - When routing looks suspicious, run

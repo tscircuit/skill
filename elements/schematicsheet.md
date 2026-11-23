@@ -1,17 +1,15 @@
 # `<schematicsheet />`
 
-Declares one page of the schematic. Assign a component to a sheet with
-`schSheetName`; schematic primitives such as `<schematictext />` can be nested
-inside the sheet instead.
+Declares one page of the schematic. Declare sheets as siblings of the components,
+order them with `sheetIndex`, and assign each component with `schSheetName` matching
+the sheet's `name`.
 
 ## Example
 
 ```tsx
 export default () => (
   <board width="20mm" height="20mm">
-    <schematicsheet name="Power" displayName="Power input" sheetIndex={0}>
-      <schematictext text="Power input" schX={0} schY={3} fontSize={0.3} />
-    </schematicsheet>
+    <schematicsheet name="Power" displayName="Power input" sheetIndex={0} />
     <schematicsheet name="Logic" displayName="Logic" sheetIndex={1} />
 
     <resistor name="R1" resistance="10k" footprint="0603" schSheetName="Power" schX={0} schY={0} pcbX={-3} />
