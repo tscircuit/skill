@@ -55,21 +55,7 @@ When this Skill is active:
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate
-- Put scratch scripts, logs, and other AI-generated debugging files in a
-  dedicated directory. Add project-relative globs for those files to
-  `ignoredFiles` in `tscircuit.config.json` so `tsci push` excludes them from
-  the registry upload. Keep any existing `ignoredFiles` entries and use globs
-  that leave circuit sources and required assets included.
-
-  ```json
-  {
-    "ignoredFiles": ["debug/**", "debug-*.ts"]
-  }
-  ```
-
-  This example excludes everything under `debug/` and root-level scripts such
-  as `debug-repro.ts`. Use a glob for individual files because the CLI treats
-  bare strings as directory names.
+- Add globs such as `debug/**` to `ignoredFiles` in `tscircuit.config.json` to keep AI-generated debugging files out of `tsci push` uploads.
 - Use `tsci check source [file]` for source diagnostics and `tsci check pin_specification [file]` for pin requirements before layout.
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
 - Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement. Apply the `suggestedSchWidth`, `suggestedSchHeight` or `deltaSchRotation` each issue reports instead of estimating a value, and after an edit that only touches schematic props rerun this check alone.
