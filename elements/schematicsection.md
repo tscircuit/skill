@@ -47,7 +47,7 @@ export default () => (
     {/* IO section — cluster around schX=12, well separated from Power */}
     <pushbutton
       name="BTN1"
-      footprint="button_4pin"
+      footprint="pushbutton"
       schSectionName="IO"
       schX={12}
       schY={0}
