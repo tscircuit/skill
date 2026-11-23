@@ -55,6 +55,7 @@ When this Skill is active:
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
 
 5) Build and iterate
+- Add globs such as `debug/**` to `ignoredFiles` in `tscircuit.config.json` to keep AI-generated debugging files out of `tsci push` uploads.
 - Use `tsci check source [file]` for source diagnostics and `tsci check pin_specification [file]` for pin requirements before layout.
 - Run `tsci check netlist` before `tsci check schematic-placement`, `tsci check placement`, and `tsci build` to catch connectivity issues early.
 - Use `tsci check schematic-placement` to validate schematic-side placement before checking PCB placement. Apply the `suggestedSchWidth`, `suggestedSchHeight` or `deltaSchRotation` each issue reports instead of estimating a value, and after an edit that only touches schematic props rerun this check alone.
