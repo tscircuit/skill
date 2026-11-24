@@ -1,6 +1,6 @@
 ---
 name: tscircuit
-description: Use this skill when creating, editing, or debugging electronic circuits, schematics, or PCB layouts with tscircuit, including React/TypeScript circuit code. Invoke for component and footprint selection, electrical connections, schematic organization, PCB placement, trace routing, routing failures, design checks, and fabrication exports—even when the user does not mention the CLI. Use tscircuit's built-in autorouting and documented APIs; do not implement a custom router unless the user explicitly requests one.
+description: Use this skill when creating, editing, or debugging electronic circuits, schematics, or PCB layouts with tscircuit, including React/TypeScript circuit code. Invoke for component and footprint selection, electrical connections, schematic organization, PCB placement, trace routing, routing failures, design checks, fabrication exports, and wire harness (cable manufacturing) drawings—even when the user does not mention the CLI. Use tscircuit's built-in autorouting and documented APIs; do not implement a custom router unless the user explicitly requests one.
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 
@@ -53,6 +53,7 @@ When this Skill is active:
 - For pre-generated fanout routes, use `<fanout pcbTracePaths={savedPaths}>` (or `<breakout>`). Read [Saved fanout trace paths](./SAVED_FANOUT_PATHS.md) for JSON imports, local coordinates, complete coverage, and via endpoints with `allowViaInPad`.
 - Use `<board routeRemaining={false}>` to skip implicit routing of remaining connections while keeping explicit routing phases and breakouts. Unrouted connections still produce DRC errors; `true` or omission keeps normal remaining routing. Nested subcircuits inherit the setting.
 - Use `<trace />` for connectivity; prefer net connections (`net.GND`, `net.VCC`, etc.) for power/ground.
+- For a cable or wire harness manufacturing drawing, describe the cable with `<assembly.cable />` and one `<assembly.cablewire />` per conductor, then place an `<assembly.drawing.harnessview />` on an `<assembly.drawing.page />`. Read [Wire harness drawings](./WIRE_HARNESS.md) for the sheet layout, the pin-order convention, and unsupported cases before writing one.
 
 5) Build and iterate
 - Add globs such as `debug/**` to `ignoredFiles` in `tscircuit.config.json` to keep AI-generated debugging files out of `tsci push` uploads.
@@ -98,6 +99,7 @@ When this Skill is active:
 - Syntax primer: `SYNTAX.md`
 - Workflow patterns: `WORKFLOW.md`
 - Schematic box sizing and the schematic-placement check: `SCHEMATIC_PLACEMENT.md`
+- Wire harness (cable manufacturing) drawings: `WIRE_HARNESS.md`
 - Pre-export checklist: `CHECKLIST.md`
 - Ready-to-copy templates: `templates/`
 - Helper scripts: `scripts/`
@@ -106,7 +108,12 @@ When this Skill is active:
 
 - [`<analogsimulation />`](./elements/analogsimulation.md)
 - [`<antenna />`](./elements/antenna.md)
+- [`<assembly.cable />`](./elements/assemblycable.md)
+- [`<assembly.cablewire />`](./elements/assemblycablewire.md)
 - [`<assembly.device />`](./elements/assemblydevice.md)
+- [`<assembly.drawing.bomtable />`](./elements/assemblydrawingbomtable.md)
+- [`<assembly.drawing.harnessview />`](./elements/assemblydrawingharnessview.md)
+- [`<assembly.drawing.wiringtable />`](./elements/assemblydrawingwiringtable.md)
 - [`<battery />`](./elements/battery.md)
 - [`<board />`](./elements/board.md)
 - [`<breakout />`](./elements/breakout.md)
