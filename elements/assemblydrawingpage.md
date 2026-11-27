@@ -11,9 +11,11 @@ for a human-readable label.
   also supports the four corners and edge centers, such as `bottom_left` and
   `top_center`. Positive X points right and positive Y points up from each
   anchor.
-- Include at least one [part view](./assemblydrawingpartview.md) or
-  [explosion view](./assemblydrawingexplosionview.md) for export. The page can
-  also contain [notes](./assemblydrawingnote.md) and one
+- Include at least one [part view](./assemblydrawingpartview.md),
+  [explosion view](./assemblydrawingexplosionview.md) or
+  [harness view](./assemblydrawingharnessview.md) for export. The page can
+  also contain [notes](./assemblydrawingnote.md), wiring and parts
+  [tables](../WIRE_HARNESS.md) and one
   [title block](./assemblydrawingtitleblock.md).
 
 See the [runnable drawing and export example](../ASSEMBLY_DRAWINGS.md#draw-a-cover-and-clip-removal)
