@@ -5,9 +5,13 @@ wire lands on, the cut length, a wiring list and a parts list. Describe the
 cable with `<assembly.cable />` and `<assembly.cablewire />`, then place an
 `<assembly.drawing.harnessview />` on an `<assembly.drawing.page />`.
 
-Needs `@tscircuit/core` 0.0.2471 or later. If `assembly.cablewire` or
+Needs `tscircuit` 0.0.3290 or later. If `assembly.cablewire` or
 `assembly.drawing.harnessview` is reported as an unknown element, update
 `tscircuit` before changing the code.
+
+Pages, title blocks, notes and part views are covered in
+[Assembly drawings](./ASSEMBLY_DRAWINGS.md); a harness view can share a page
+with them.
 
 ```tsx
 import { assembly } from "tscircuit"
@@ -76,8 +80,8 @@ Export and open the sheet before reporting it done:
 tsci export motor-cable.circuit.tsx --drawing motor-cable
 ```
 
-`tsci build <file> --drawings` writes every page. Run `tsci export --help` if
-a flag is rejected.
+`tsci build motor-cable.circuit.tsx --drawings` writes every page to
+`dist/motor-cable/drawings/<page name>.svg`.
 
 ## Describe the cable
 
